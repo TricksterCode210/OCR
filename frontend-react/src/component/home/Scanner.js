@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import {createWorker} from 'tesseract.js'
+import {HStack} from '@chakra-ui/react'
 
 const Scanner = () => {
 	const [ocr, setOcr] = useState('')
@@ -41,22 +42,28 @@ const Scanner = () => {
 	}
 
 	return (
-		<div className="App">
-			<div>
-				<input
-					type="file"
-					name=""
-					id="input_image_"
-					onChange={handleImageChange}
-					accept="image/*"
-				/>
-			</div>
-			<div className="display-flex">
-				<img src={imageData} alt="" srcset=""/>
-				<p>{ocr}</p>
+		<div className="container">
+			<div className={'row'}>
+				<HStack>
+					<div className={'col-3'}>
+						<label for={'file_upload'} className={'custom-file-upload'}>Töltse fel a fájlt</label>
+						<input
+							type="file"
+							id={'file_upload'}
+							onChange={handleImageChange}
+							accept="image/*"
+						/>
+					</div>
+					<div classname={'col-3'}>
+						<img src={imageData} alt="Kép" height={'200px'} width={'160px'}/>
+					</div>
+					<div className={'col-6'}>
+						<p>{ocr}</p>
+					</div>
+				</HStack>
 			</div>
 		</div>
-	);
+	)
 }
 
-export default Scanner;
+export default Scanner

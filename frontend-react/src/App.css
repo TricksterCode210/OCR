@@ -229,15 +229,6 @@ button:hover:enabled{
   color: #61dafb;
 }
 
-.leading-news{
-  background-color: #393d45;
-  margin-bottom: 1rem;
-}
-
-.leading-news:first-of-type{
-  margin-top: 2rem;
-}
-
 footer{
   position: fixed;
   bottom: 0px;
@@ -248,4 +239,24 @@ footer{
   right:2rem;
   font-size: 16px;
   text-align: right;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ffffff;
+  width: 10rem;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.custom-file-upload:hover{
+  animation: change-color 0.5s linear;
+  background-color: #61dafb;
+  color: black;
 }
