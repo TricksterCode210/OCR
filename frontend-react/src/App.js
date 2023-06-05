@@ -1,57 +1,29 @@
-import { useEffect, useState } from "react";
-import { createWorker } from "tesseract.js";
-import "./App.css";
+import './App.css';
+import { Link, Route, Routes} from 'react-router-dom'
+import Information from './component/info/Information'
+import React, {useState} from 'react'
+import HomePage from './component/home/HomePage'
+
 function App() {
-  const [ocr, setOcr] = useState("");
-  const [imageData, setImageData] = useState(null);
-  const worker = createWorker({
-    logger: (m) => {
-      console.log(m);
-    },
-  });
-  const convertImageToText = async () => {
-    if (!imageData) return;
-    await (await worker).load();
-    await (await worker).loadLanguage("hun");
-    await (await worker).initialize("hun");
-    const {
-      data: { text },
-    } = await (await worker).recognize(imageData);
-    setOcr(text);
-  };
-
-  useEffect(() => {
-    convertImageToText();
-  }, [imageData]);
-
-  function handleImageChange(e) {
-    const file = e.target.files[0];
-    if(!file)return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageDataUri = reader.result;
-      console.log({ imageDataUri });
-      setImageData(imageDataUri);
-    };
-    reader.readAsDataURL(file);
-  }
-  return (
-      <div className="App">
-        <div>
-          <p>Choose an Image</p>
-          <input
-              type="file"
-              name=""
-              id=""
-              onChange={handleImageChange}
-              accept="image/*"
-          />
+    return (
+        <div className="App">
+            <header>
+                <nav className="nav">
+                    <Link to={"/"} className={"nav-item"}>Kezdőlap</Link>
+                    <Link to={"/information"} className={"nav-item"}>Súgó</Link>
+                </nav>
+                <div className={"nav-cim"}>
+                    <h3 className={"nav-cim-header"}>OCR Scanner</h3>
+                </div>
+            </header>
+            <main>
+                <Routes>
+                    <Route path={"/"} element={<HomePage/>} />
+                    <Route path={"/information"} element={<Information/>} />
+                </Routes>
+            </main>
         </div>
-        <div className="display-flex">
-          <img src={imageData} alt="" srcset="" />
-          <p>{ocr}</p>
-        </div>
-      </div>
-  );
+    )
 }
+
 export default App;

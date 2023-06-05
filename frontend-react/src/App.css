@@ -1,38 +1,251 @@
 .App {
+  min-height: 100vh;
+  background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  background-size: auto;
+}
+
+/*https://dev.to/sanchithasr/3-ways-to-center-elements-in-css-1m43#:~:text=3%20Ways%20To%20Center%20Elements%20In%20CSS%201,of%20grid.%20...%203%203.%20Using%20Position%20Property*/
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form, .register-form{
+  padding: 3rem;
+  border: 1px solid grey;
+  border-radius: 10px;
+  margin: 0.5rem;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-btn, .modify-btn, .cancel-btn{
+  background-color: red;
+  color:white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
+
+.error-message{
+  color: red;
+  font-size: 1.5rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.error-fields{
+  border: red solid 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.modify-btn, .cancel-btn{
+  background-color: grey;
+  margin-left: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.about-us{
+  background-color: white;
+  color:black;
+  border-radius: 15px;
+}
+
+.cim{
+  text-align: center;
+}
+
+.row-data{
+  padding-top: 1rem;
+}
+
+.login-label, .register-label {
+  padding: 0.25rem 0;
+  margin-right: 2rem;
+}
+
+.welcoming-message{
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.edit-news{
+  background: #282c34;
+}
+
+.news, .news:hover{
+  color:white;
+  text-decoration-line: none;
+}
+
+input {
+  margin: 0.25rem 0;
+  padding: 1rem;
+  border:none;
+  border-radius: 10px;
+  background-color: #393d45;
   color: white;
 }
 
-.App-link {
+textarea {
+  margin: 0.25rem 0;
+  padding: 1rem;
+  border:none;
+  border-radius: 10px;
+  background-color: #393d45;
+  color: white;
+}
+
+.chakra-stack{
+  width: 40rem;
+}
+
+.form-labels{
+  display: flex;
+  justify-content: left;
+}
+
+.form-inputs, .form-textarea{
+  height: 3rem;
+  display: flex;
+  left: 45%;
+  position: absolute;
+}
+
+.form-textarea{
+  padding-top: 4rem;
+  height: 10rem;
+  width: 23.5rem;
+}
+
+input:invalid{
+  margin: 0.25rem 0;
+  padding: 1rem;
+  border:2px solid red;
+  border-radius: 10px;
+  background-color: #393d45;
+  color: red;
+}
+
+.login-btn:disabled, .register-btn:disabled{
+  background-color: #282c34;
+  color:grey;
+}
+
+.login-btn, .register-btn, .link-btn, .submit-btn {
+  border: none;
+  background-color: #393d45;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  margin: 1rem
+}
+
+.submit-btn{
+  width: 20rem;
+  font-size: 2rem;
+}
+
+button:hover:enabled{
+  animation: change-color 0.5s linear;
+  background-color: #61dafb;
+  color: black;
+}
+
+@keyframes change-color {
+  0%{
+    background-color: #393d45;
+    color: white;
+  }
+  100% {
+    background-color: #61dafb;
+    color: black;
+  }
+}
+
+.col-8.paragraph{
+  background: #61dafb;
+}
+
+.col-4.paragraph{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: black 2px solid;
+}
+
+.paragraph::first-letter{
+  padding-left: 2rem;
+}
+
+.nav{
+  background-color: #393d45;
+  width: 100%;
+  max-height: 100vh;
+  display: flex;
+  text-align: center;
+  position: sticky;
+  top:0;
+}
+
+.about-picture{
+  animation: about-picture-rotation 10s linear infinite;
+}
+
+@keyframes about-picture-rotation {
+  0%{
+    rotate: 0deg;
+  }
+  100%{
+    rotate: 360deg;
+  }
+
+}
+
+.nav-cim{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-cim-header{
+  font-family: Algerian;
+  font-size: 6vh;
+}
+
+.nav-item{
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color:white;
+}
+
+.nav-item:hover {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.leading-news{
+  background-color: #393d45;
+  margin-bottom: 1rem;
+}
+
+.leading-news:first-of-type{
+  margin-top: 2rem;
+}
+
+footer{
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+
+.copyright{
+  right:2rem;
+  font-size: 16px;
+  text-align: right;
 }
