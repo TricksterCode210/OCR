@@ -16,10 +16,12 @@ function App() {
                     <h3 className={"nav-cim-header"}>OCR Scanner</h3>
                 </div>
             </header>
+            <main>
                 <Routes>
                     <Route path={"/"} element={<HomePage/>} />
                     <Route path={"/information"} element={<Information/>} />
                 </Routes>
+            </main>
             <footer>
                 <div className={"copyright"}>
                     <p>SZTE TTIK szakdolgozat, Dinnyés Dávid</p>

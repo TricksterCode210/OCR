@@ -55,7 +55,7 @@ const Scanner = () => {
 						/>
 					</div>
 					<div classname={'col-3'}>
-						<img src={imageData} alt="Kép" height={'200px'} width={'160px'}/>
+						<img src={imageData} hidden={!imageData} alt="Kép" height={'200px'} width={'160px'}/>
 					</div>
 					<div className={'col-6'}>
 						<p>{ocr}</p>
