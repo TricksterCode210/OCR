@@ -42,7 +42,7 @@ const Scanner = () => {
 	}
 
 	return (
-		<div className="container">
+		<div className="container-fluid">
 			<div className={'row'}>
 				<HStack>
 					<div className={'col-3'}>
@@ -55,10 +55,10 @@ const Scanner = () => {
 						/>
 					</div>
 					<div classname={'col-3'}>
-						<img src={imageData} hidden={!imageData} alt="Kép" height={'200px'} width={'160px'}/>
+						<img src={imageData} hidden={!imageData} height={"100%"} width={"100%"} alt="Kép"/>
 					</div>
 					<div className={'col-6'}>
-						<p>{ocr}</p>
+						<p className={"ocr-result"}>{ocr}</p>
 					</div>
 				</HStack>
 			</div>

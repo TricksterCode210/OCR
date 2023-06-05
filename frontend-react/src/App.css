@@ -116,3 +116,12 @@ input[type="file"] {
   background-color: #61dafb;
   color: black;
 }
+
+.scanners{
+  border: 1px solid #61dafb;
+  border-radius: 15px;
+}
+
+.ocr-result{
+  font-size:1rem;
+}

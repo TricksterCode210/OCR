@@ -3,6 +3,7 @@ import { Link, Route, Routes} from 'react-router-dom'
 import Information from './component/info/Information'
 import React, {useState} from 'react'
 import HomePage from './component/home/HomePage'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     return (
