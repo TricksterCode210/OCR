@@ -13,14 +13,14 @@ main{
   align-items: center;
 }
 
-input {
-  margin: 0.25rem 0;
-  padding: 1rem;
-  border:none;
-  border-radius: 10px;
-  background-color: #393d45;
-  color: white;
-}
+/*input {*/
+/*  margin: 0.25rem 0;*/
+/*  padding: 1rem;*/
+/*  border:none;*/
+/*  border-radius: 10px;*/
+/*  background-color: #393d45;*/
+/*  color: white;*/
+/*}*/
 
 textarea {
   margin: 0.25rem 0;
@@ -36,11 +36,11 @@ textarea {
 }
 
 
-button:hover:enabled{
-  animation: change-color 0.5s linear;
-  background-color: #61dafb;
-  color: black;
-}
+/*button:hover:enabled{*/
+/*  animation: change-color 0.5s linear;*/
+/*  background-color: #61dafb;*/
+/*  color: black;*/
+/*}*/
 
 @keyframes change-color {
   0%{
@@ -124,4 +124,7 @@ input[type="file"] {
 
 .ocr-result{
   font-size:1rem;
+}
+
+.card{
 }

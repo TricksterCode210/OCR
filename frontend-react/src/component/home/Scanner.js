@@ -2,7 +2,12 @@ import {useEffect, useState} from 'react'
 import {createWorker} from 'tesseract.js'
 import {HStack} from '@chakra-ui/react'
 
-const Scanner = ({id, ocr, setOcr}) => {
+const Scanner = ({
+	id,
+	ocr,
+	setOcr,
+	language = "hun"
+}) => {
 	const [imageData, setImageData] = useState(null)
 	const worker = createWorker()
 
@@ -10,8 +15,8 @@ const Scanner = ({id, ocr, setOcr}) => {
 		if (!imageData) {
 			return
 		}
-		await (await worker).loadLanguage('hun')
-		await (await worker).initialize('hun')
+		await (await worker).loadLanguage(language)
+		await (await worker).initialize(language)
 		const {
 			data: {text}
 		} = await (await worker).recognize(imageData, {rotateAuto: true})
@@ -20,7 +25,7 @@ const Scanner = ({id, ocr, setOcr}) => {
 
 	useEffect(() => {
 		convertImageToText()
-	}, [imageData])
+	}, [imageData, language])
 
 	function handleImageChange(e) {
 		console.log(id)
