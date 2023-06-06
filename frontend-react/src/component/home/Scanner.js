@@ -5,8 +5,8 @@ import {HStack} from '@chakra-ui/react'
 const Scanner = ({
 	id,
 	ocr,
-	setOcr,
-	language
+	setOcr
+	//lanuage
 }) => {
 	const [imageData, setImageData] = useState(null)
 	const worker = createWorker()
@@ -16,8 +16,8 @@ const Scanner = ({
 		if (!imageData) {
 			return
 		}
-		await (await worker).loadLanguage(language)
-		await (await worker).initialize(language)
+		await (await worker).loadLanguage("hun") // Ide kéne a language
+		await (await worker).initialize("hun")
 		const {
 			data: {text}
 		} = await (await worker).recognize(imageData, {rotateAuto: true})
