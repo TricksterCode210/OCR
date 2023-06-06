@@ -12,7 +12,6 @@ const Scanner = ({
 	const worker = createWorker()
 
 	const convertImageToText = async () => {
-		console.log(id)
 		if (!imageData) {
 			return
 		}
@@ -36,7 +35,6 @@ const Scanner = ({
 		const reader = new FileReader()
 		reader.onloadend = () => {
 			const imageDataUri = reader.result
-			console.log({imageDataUri})
 			setImageData(imageDataUri)
 		}
 		reader.readAsDataURL(file)
