@@ -2,19 +2,14 @@ import {useEffect, useState} from 'react'
 import {createWorker} from 'tesseract.js'
 import {HStack} from '@chakra-ui/react'
 
-const Scanner = () => {
-	const [ocr, setOcr] = useState('')
+const Scanner = ({id, ocr, setOcr}) => {
 	const [imageData, setImageData] = useState(null)
-	const worker = createWorker({
-		logger: (m) => {
-			console.log(m)
-		}
-	})
+	const worker = createWorker()
+
 	const convertImageToText = async () => {
 		if (!imageData) {
 			return
 		}
-		await (await worker).load()
 		await (await worker).loadLanguage('hun')
 		await (await worker).initialize('hun')
 		const {
@@ -28,6 +23,7 @@ const Scanner = () => {
 	}, [imageData])
 
 	function handleImageChange(e) {
+		console.log(id)
 		const file = e.target.files[0]
 		if (!file) {
 			return
@@ -37,24 +33,25 @@ const Scanner = () => {
 			const imageDataUri = reader.result
 			console.log({imageDataUri})
 			setImageData(imageDataUri)
+			console.log(id)
 		}
 		reader.readAsDataURL(file)
 	}
 
 	return (
-		<div className="container-fluid">
+		<div className="container-fluid mt-5 mb-5 border border-info rounded-4">
 			<div className={'row'}>
 				<HStack>
-					<div className={'col-3'}>
-						<label for={'file_upload'} className={'custom-file-upload'}>Töltse fel a fájlt</label>
+					<div className={'col-3 '}>
+						<label htmlFor={`file_upload_${id}`} className={'custom-file-upload'}>Töltse fel a fájlt</label>
 						<input
 							type="file"
-							id={'file_upload'}
-							onChange={handleImageChange}
+							id={`file_upload_${id}`}
+							onChange={(e) => {handleImageChange(e)}}
 							accept="image/*"
 						/>
 					</div>
-					<div classname={'col-3'}>
+					<div className={'col-3'}>
 						<img src={imageData} hidden={!imageData} height={"100%"} width={"100%"} alt="Kép"/>
 					</div>
 					<div className={'col-6'}>
