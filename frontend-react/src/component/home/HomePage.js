@@ -3,7 +3,7 @@ import {useState} from 'react'
 import {Dropdown} from 'primereact/dropdown'
 
 const HomePage = () => {
-	const [selectedLanguage, setSelectedLanguage] = useState()
+	const [selectedLanguage, setSelectedLanguage] = useState("hun")
 	const languages = [
 		{name: 'Magyar', code: 'hun'},
 		{name: 'Angol', code: 'eng'}

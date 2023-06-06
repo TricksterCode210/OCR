@@ -6,12 +6,13 @@ const Scanner = ({
 	id,
 	ocr,
 	setOcr,
-	language = "hun"
+	language
 }) => {
 	const [imageData, setImageData] = useState(null)
 	const worker = createWorker()
 
 	const convertImageToText = async () => {
+		console.log(id)
 		if (!imageData) {
 			return
 		}
@@ -25,10 +26,9 @@ const Scanner = ({
 
 	useEffect(() => {
 		convertImageToText()
-	}, [imageData, language])
+	}, [imageData])
 
 	function handleImageChange(e) {
-		console.log(id)
 		const file = e.target.files[0]
 		if (!file) {
 			return
@@ -38,7 +38,6 @@ const Scanner = ({
 			const imageDataUri = reader.result
 			console.log({imageDataUri})
 			setImageData(imageDataUri)
-			console.log(id)
 		}
 		reader.readAsDataURL(file)
 	}
