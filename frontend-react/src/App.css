@@ -126,5 +126,13 @@ input[type="file"] {
   font-size:1rem;
 }
 
-.card{
+
+#language-selector{
+  background-color: #61dafb;
+  width: 70%;
+  border:none;
+}
+
+#language-selector:hover{
+  border: 1px solid white;
 }

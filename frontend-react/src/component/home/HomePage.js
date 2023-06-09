@@ -26,7 +26,7 @@ const HomePage = () => {
 		if (!imageData) {
 			return
 		}
-		Tesseract.recognize(imageData, selectedLanguage ? selectedLanguage.code : "hun")
+		Tesseract.recognize(imageData, selectedLanguage.code)
 			.then(result => {
 				setOcr(result.data.text)
 			})
@@ -64,6 +64,7 @@ const HomePage = () => {
 				<div className={'col-3'}>
 					<Dropdown
 						value={selectedLanguage}
+						id={"language-selector"}
 						onChange={(e => setSelectedLanguage(e.value))}
 						options={languages}
 						optionLabel={'name'}
@@ -72,12 +73,12 @@ const HomePage = () => {
 					/>
 				</div>
 			</div>
-			{{selectedLanguage} ? <>
+			{selectedLanguage !== undefined ? <>
 				<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
 				<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
 				<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
 				<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
-			</> : <></>}
+			</> : <p className={"text-center"} style={{color: '#61dafb'}}>Kérem válasszon nyelvet először!</p>}
 		</div>
 	)
 }
