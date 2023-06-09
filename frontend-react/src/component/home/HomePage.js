@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
-import InputFields from "./InputFields";
-import {createWorker} from "tesseract.js";
+import InputFields from './InputFields'
+import Tesseract from 'tesseract.js'
+import {Dropdown} from 'primereact/dropdown'
 
 const HomePage = () => {
 
@@ -14,37 +15,39 @@ const HomePage = () => {
 	const [ocr3, setOcr3] = useState('')
 	const [ocr4, setOcr4] = useState('')
 
-	const worker = createWorker()
+	const [selectedLanguage, setSelectedLanguage] = useState()
+
+	const languages = [
+		{name: 'Magyar', code: 'hun'},
+		{name: 'Angol', code: 'eng'}
+	]
 
 	const convertImageToText = async (imageData, setOcr) => {
 		if (!imageData) {
 			return
 		}
-		await (await worker).loadLanguage("hun") // Ide kéne a language
-		await (await worker).initialize("hun")
-		const {
-			data: {text}
-		} = await (await worker).recognize(imageData, {rotateAuto: true})
-		setOcr(text)
-		await (await worker).terminate()
+		Tesseract.recognize(imageData, selectedLanguage.code)
+			.then(result => {
+				setOcr(result.data.text)
+			})
+			.catch(err => console.error(err))
 	}
 
-	useEffect(()=>{
+	useEffect(() => {
 		convertImageToText(imageData1, setOcr1)
-	}, [imageData1])
+	}, [imageData1, selectedLanguage])
 
-	useEffect(()=>{
+	useEffect(() => {
 		convertImageToText(imageData2, setOcr2)
-	}, [imageData2])
+	}, [imageData2, selectedLanguage])
 
-	useEffect(()=>{
+	useEffect(() => {
 		convertImageToText(imageData3, setOcr3)
-	}, [imageData3])
+	}, [imageData3, selectedLanguage])
 
-	useEffect(()=>{
+	useEffect(() => {
 		convertImageToText(imageData4, setOcr4)
-	}, [imageData4])
-
+	}, [imageData4, selectedLanguage])
 
 	return (
 		<div className={'container-fluid scanners'}>
@@ -55,15 +58,26 @@ const HomePage = () => {
 				<div className={'col-3'}>
 					<p>Kép</p>
 				</div>
-				<div className={'col-6'}>
+				<div className={'col-3'}>
 					<p>OCR eredmény</p>
 				</div>
-
+				<div className={'col-3'}>
+					<Dropdown
+						value={selectedLanguage}
+						onChange={(e => setSelectedLanguage(e.value))}
+						options={languages}
+						optionLabel={'name'}
+						placeholder={'Válasszon nyelvet'}
+						className={'w-full md:w-14rem'}
+					/>
+				</div>
 			</div>
-			<InputFields id={"elso"} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
-			<InputFields id={"masodik"} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
-			<InputFields id={"harmadik"} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
-			<InputFields id={"negyedik"} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
+			{{selectedLanguage} ? <>
+				<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
+				<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
+				<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
+				<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
+			</> : <></>}
 		</div>
 	)
 }
