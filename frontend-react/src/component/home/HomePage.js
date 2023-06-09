@@ -26,7 +26,7 @@ const HomePage = () => {
 		if (!imageData) {
 			return
 		}
-		Tesseract.recognize(imageData, selectedLanguage.code)
+		Tesseract.recognize(imageData, selectedLanguage ? selectedLanguage.code : "hun")
 			.then(result => {
 				setOcr(result.data.text)
 			})
