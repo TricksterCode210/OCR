@@ -1,11 +1,12 @@
 import {HStack} from "@chakra-ui/react";
-import {useState} from "react";
+import {Button} from 'primereact/button'
 
 const InputFields = ({
     id,
     ocr,
     imageData,
-    setImageData
+    setImageData,
+    setOcr
 }) => {
 
     function handleImageChange(e) {
@@ -21,11 +22,16 @@ const InputFields = ({
         reader.readAsDataURL(file)
     }
 
+    const deleteResults = () => {
+        setImageData(null)
+        setOcr('')
+    }
+
     return(
         <div className="container-fluid mt-5 mb-5 border border-info rounded-4">
-            <div className={'row'}>
+            <div className={'row m-0'}>
                 <HStack>
-                    <div className={'col-3 '}>
+                    <div className={'col-4'}>
                         <label htmlFor={`file_upload_${id}`} className={'custom-file-upload'}>Töltse fel a fájlt</label>
                         <input
                             type="file"
@@ -33,12 +39,13 @@ const InputFields = ({
                             onChange={(e) => {handleImageChange(e)}}
                             accept="image/*"
                         />
+                        <Button label={"Törlés"} className={'delete-button'} onClick={e => deleteResults()}/>
                     </div>
-                    <div className={'col-3'}>
-                        <img src={imageData} hidden={!imageData} height={"100%"} width={"100%"} alt="Kép"/>
+                    <div className={'col-4'}>
+                        <img src={imageData} hidden={!imageData} height={"70%"} width={"70%"} alt="Kép"/>
                     </div>
-                    <div className={'col-6'}>
-                        <p className={"ocr-result"}>{ocr}</p>
+                    <div className={'col-4'}>
+                       <pre className={'ocr-text'}>{ocr}</pre>
                     </div>
                 </HStack>
             </div>

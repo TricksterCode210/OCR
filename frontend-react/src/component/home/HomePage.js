@@ -84,10 +84,10 @@ const HomePage = () => {
 			</div>
 			{selectedLanguage !== undefined ?
 				<>
-					<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
-					<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
-					<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
-					<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
+					<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1} setOcr={setOcr1}/>
+					<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2} setOcr={setOcr2}/>
+					<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3} setOcr={setOcr3}/>
+					<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4} setOcr={setOcr4}/>
 					<div className={"result-block"}>
 						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={"OCR eredmény készítés"} id={"ocr-button"} onClick={e => makeResult(e)}/>
 					</div>
