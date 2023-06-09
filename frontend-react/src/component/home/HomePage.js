@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react'
 import InputFields from './InputFields'
 import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
+import {Button} from 'primereact/button'
+import {InputTextarea} from 'primereact/inputtextarea'
 
 const HomePage = () => {
 
@@ -14,6 +16,8 @@ const HomePage = () => {
 	const [ocr2, setOcr2] = useState('')
 	const [ocr3, setOcr3] = useState('')
 	const [ocr4, setOcr4] = useState('')
+
+	const [ocrResult, setOcrResult] = useState('')
 
 	const [selectedLanguage, setSelectedLanguage] = useState()
 
@@ -31,6 +35,11 @@ const HomePage = () => {
 				setOcr(result.data.text)
 			})
 			.catch(err => console.error(err))
+	}
+
+	const makeResult = (e) => {
+		e.preventDefault();
+		setOcrResult(ocr1)
 	}
 
 	useEffect(() => {
@@ -64,7 +73,7 @@ const HomePage = () => {
 				<div className={'col-3'}>
 					<Dropdown
 						value={selectedLanguage}
-						id={"language-selector"}
+						id={'language-selector'}
 						onChange={(e => setSelectedLanguage(e.value))}
 						options={languages}
 						optionLabel={'name'}
@@ -73,12 +82,21 @@ const HomePage = () => {
 					/>
 				</div>
 			</div>
-			{selectedLanguage !== undefined ? <>
-				<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
-				<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
-				<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
-				<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
-			</> : <p className={"text-center"} style={{color: '#61dafb'}}>Kérem válasszon nyelvet először!</p>}
+			{selectedLanguage !== undefined ?
+				<>
+					<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1}/>
+					<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2}/>
+					<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3}/>
+					<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4}/>
+					<div className={"result-block"}>
+						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={"OCR eredmény készítés"} id={"ocr-button"} onClick={e => makeResult(e)}/>
+					</div>
+					<div className={"result-block"}>
+						<InputTextarea value={ocrResult} autoResize readOnly id={"ocr-result"}/>
+					</div>
+				</>
+				:
+				<p className={'text-center'} style={{color: '#61dafb'}}>Kérem válasszon nyelvet először!</p>}
 		</div>
 	)
 }

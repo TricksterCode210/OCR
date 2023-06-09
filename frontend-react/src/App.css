@@ -88,7 +88,8 @@ textarea {
 footer{
   position: fixed;
   bottom: 0px;
-  width: 100%;
+  right: 0.5em;
+  width: 30%;
 }
 
 .copyright{
@@ -135,4 +136,30 @@ input[type="file"] {
 
 #language-selector:hover{
   border: 1px solid white;
+}
+
+#ocr-button{
+  background-color: #282c34;
+  color: white;
+  border-radius:10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#ocr-button:hover{
+  background-color: #61dafb;
+  color: black;
+}
+
+.result-block{
+  display:flex;
+  justify-content:center;
+  align-items: center;
+}
+
+#ocr-result{
+  background-color: #282c34;
+  color: white;
+  width: 50rem;
+  margin: 2rem;
 }
