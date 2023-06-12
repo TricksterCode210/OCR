@@ -39,7 +39,7 @@ const InputFields = ({
                             onChange={(e) => {handleImageChange(e)}}
                             accept="image/*"
                         />
-                        <Button label={"Törlés"} className={'delete-button'} onClick={e => deleteResults()}/>
+                        <Button label={"Törlés"} severity={"danger"} hidden={!imageData} className={"me-3"} onClick={e => deleteResults()}/>
                     </div>
                     <div className={'col-4'}>
                         <img src={imageData} hidden={!imageData} height={"70%"} width={"70%"} alt="Kép"/>
