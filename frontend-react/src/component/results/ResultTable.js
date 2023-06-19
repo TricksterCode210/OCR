@@ -5,8 +5,8 @@ import {useEffect, useState} from 'react'
 const ResultTable = () => {
 	const [results, setResults] = useState()
 
-	const downloadFile = () => {
-		<a href={results.ocrResult}>teszt</a>
+	const downloadFile = (rowData) => {
+		return <p>{rowData.ocrResultFile?.name}</p>
 	}
 
 
@@ -25,7 +25,7 @@ const ResultTable = () => {
 			<Column field={'numberOfSentence'} header={"Mondatok száma"}/>
 			<Column field={'numberOfWords'} header={"Szavak száma"}/>
 			<Column field={'averageWordCount'} header={"Szavak mondatonként"}/>
-			<Column field={'ocrResult'} header={"OCR eredmény"}/>
+			<Column field={'ocrResult'} header={"OCR eredmény"} body={downloadFile}/>
 		</DataTable>
 	</>
 }

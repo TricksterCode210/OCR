@@ -1,10 +1,13 @@
 package hu.szakdolgozat.backend.ocr;
 
+import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import java.io.File;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,9 +30,11 @@ public class OcrResult
 	private Integer numberOfSentence;
 	private Integer numberOfWords;
 	private double averageWordCount;
-	private File ocrResultFile;
+	@OneToOne
+	@JoinColumn(name = "ocr_result_file_id")
+	private OcrDocument ocrResultFile;
 	
-	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, File ocrResultFile)
+	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, OcrDocument ocrResultFile)
 	{
 		this.id = id;
 		this.projectName = projectName;
@@ -39,7 +44,7 @@ public class OcrResult
 		this.ocrResultFile = ocrResultFile;
 	}
 	
-	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, File ocrResultFile)
+	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, OcrDocument ocrResultFile)
 	{
 		this.projectName = projectName;
 		this.numberOfSentence = numberOfSentence;
@@ -100,14 +105,14 @@ public class OcrResult
 		this.averageWordCount = averageWordCount;
 	}
 	
-	public File getOcrResult()
+	public OcrDocument getOcrResultFile()
 	{
 		return ocrResultFile;
 	}
 	
-	public void setOcrResult(File ocrResult)
+	public void setOcrResultFile(OcrDocument ocrResultFile)
 	{
-		this.ocrResultFile = ocrResult;
+		this.ocrResultFile = ocrResultFile;
 	}
 	
 	@Override
