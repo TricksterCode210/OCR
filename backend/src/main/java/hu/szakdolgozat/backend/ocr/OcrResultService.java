@@ -1,5 +1,6 @@
 package hu.szakdolgozat.backend.ocr;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,8 @@ public class OcrResultService
 		this.ocrResultRepository=ocrResultRepository;
 	}
 	
-	
+	public List<OcrResult> getOcrResults()
+	{
+		return ocrResultRepository.findAll();
+	}
 }

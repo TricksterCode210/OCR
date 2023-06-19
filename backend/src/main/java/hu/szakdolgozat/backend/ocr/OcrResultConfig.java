@@ -1,5 +1,8 @@
 package hu.szakdolgozat.backend.ocr;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +20,18 @@ public class OcrResultConfig
 				2,
 				3,
 				1,
-				null
+				new File("C:\\Users\\DinnyesD\\IdeaProjects\\OCR\\backend\\src\\main\\resources\\documents\\ocr_result_teszt.txt")
 			);
 			
-			repository.save(ocrResult);
+			OcrResult ocrResult2 = new OcrResult(
+				"teszt elek projekt",
+				2,
+				7,
+				3.5,
+				new File("C:\\Users\\DinnyesD\\IdeaProjects\\OCR\\backend\\src\\main\\resources\\documents\\ocr_result_teszt.txt")
+			);
+			
+			repository.saveAll(List.of(ocrResult, ocrResult2));
 		};
 	}
 }

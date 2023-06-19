@@ -39,7 +39,7 @@ public class OcrResult
 		this.ocrResultFile = ocrResultFile;
 	}
 	
-	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, Integer averageWordCount, File ocrResultFile)
+	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, File ocrResultFile)
 	{
 		this.projectName = projectName;
 		this.numberOfSentence = numberOfSentence;

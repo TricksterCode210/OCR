@@ -241,3 +241,14 @@ input {
   background-color: #393d45;
   color: white;
 }
+
+#result-table td, #result-table th{
+  background-color: #393d45;
+  color: white;
+  border: 1px solid #61dafb;
+  text-align: center;
+}
+
+#result-table{
+  width: 80%;
+}
