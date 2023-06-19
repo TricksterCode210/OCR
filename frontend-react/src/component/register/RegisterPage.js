@@ -27,9 +27,25 @@ const RegisterPage = () => {
 		)
 	}
 
-
 	const handleSubmit = ({name, email, password}) => {
-		navigator("/homePage")
+		const felhasznalo={name, email, password}
+		console.log(felhasznalo)
+		fetch("http://localhost:8080/register",
+			{
+				method:"POST",
+				headers:{"Content-Type":"application/json"},
+				body:JSON.stringify(felhasznalo)
+			})
+			.then(res => res.json())
+			.then((result) =>{
+				console.log(result)
+				if(result === true){
+					navigator("/homePage")
+				}
+				else {
+					setRegistered(false)
+				}
+			})
 	};
 
 	return (

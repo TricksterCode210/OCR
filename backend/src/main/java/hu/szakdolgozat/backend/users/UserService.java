@@ -27,14 +27,14 @@ public class UserService
 		return false;
 	}
 	
-	public UserInfo regisztracio(UserInfo u1)
+	public boolean regisztracio(UserInfo u1)
 	{
 		List<UserInfo> userInfos = userRepository.findAll();
 		for(UserInfo userInfo : userInfos){
 			if(userInfo.getEmail().equals(u1.getEmail()))
-				return null;
+				return false;
 		}
 		userRepository.save(u1);
-		return u1;
+		return true;
 	}
 }

@@ -15,7 +15,22 @@ const LoginPage = () => {
 	}
 
 	const handleSubmit = ({email, password}) => {
-		navigator("/homePage")
+		const felhasznalo={email, password}
+		fetch("http://localhost:8080/",
+			{
+				method:"POST",
+				headers:{"Content-Type":"application/json"},
+				body:JSON.stringify(felhasznalo)
+			})
+			.then(res => res.json())
+			.then((result) =>{
+				if(result === true){
+					navigator("/homePage")
+				}
+				else {
+					setLoggedIn(false)
+				}
+			})
 	}
 
 	return (

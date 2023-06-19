@@ -24,7 +24,7 @@ public class UserController
 	}
 	
 	@PostMapping(path="/register")
-	public UserInfo register(@RequestBody UserInfo userInfo1)
+	public boolean register(@RequestBody UserInfo userInfo1)
 	{
 		return userService.regisztracio(userInfo1);
 	}
