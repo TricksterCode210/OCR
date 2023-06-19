@@ -128,13 +128,13 @@ input[type="file"] {
 }
 
 
-#language-selector{
+#language-selector, #option-selector{
   background-color: #61dafb;
   width: 70%;
   border:none;
 }
 
-#language-selector:hover{
+#language-selector:hover, #option-selector:hover{
   border: 1px solid white;
 }
 
