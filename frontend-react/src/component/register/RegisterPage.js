@@ -5,10 +5,6 @@ import {Text, VStack} from '@chakra-ui/react'
 import CustomInput from '../CustomInput'
 
 const RegisterPage = () => {
-	const[email, setEmail] = useState('');
-	const[password, setPassword] = useState("");
-	const[name, setName] = useState('');
-	const[confPassword, setConfPassword] = useState('');
 	const[registered, setRegistered] = useState(true);
 	const navigator = useNavigate();
 
