@@ -37,9 +37,17 @@ const HomePage = () => {
 			.catch(err => console.error(err))
 	}
 
-	const makeResult = (e) => {
+	const makeResult = async (e) => {
 		e.preventDefault();
-		setOcrResult(ocr1)
+		const list = [ocr1, ocr2, ocr3, ocr4]
+		await fetch('http://localhost:8080/homePage', {
+			method: "POST",
+			headers:{"Content-Type":"application/json"},
+			body: JSON.stringify(list)
+		}).then((response) => {
+			console.log(response)
+			setOcrResult(response.toString)
+		})
 	}
 
 	useEffect(() => {

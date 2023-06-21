@@ -30,26 +30,37 @@ public class OcrResult
 	private Integer numberOfSentence;
 	private Integer numberOfWords;
 	private double averageWordCount;
+	private Integer goodWords;
+	private Integer badWords;
+	private double resultPercentage;
 	@OneToOne
 	@JoinColumn(name = "ocr_result_file_id")
 	private OcrDocument ocrResultFile;
 	
-	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, OcrDocument ocrResultFile)
+	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
+		OcrDocument ocrResultFile)
+	{
+		this.projectName = projectName;
+		this.numberOfSentence = numberOfSentence;
+		this.numberOfWords = numberOfWords;
+		this.averageWordCount = averageWordCount;
+		this.goodWords = goodWords;
+		this.badWords = badWords;
+		this.resultPercentage = resultPercentage;
+		this.ocrResultFile = ocrResultFile;
+	}
+	
+	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
+		OcrDocument ocrResultFile)
 	{
 		this.id = id;
 		this.projectName = projectName;
 		this.numberOfSentence = numberOfSentence;
 		this.numberOfWords = numberOfWords;
 		this.averageWordCount = averageWordCount;
-		this.ocrResultFile = ocrResultFile;
-	}
-	
-	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, OcrDocument ocrResultFile)
-	{
-		this.projectName = projectName;
-		this.numberOfSentence = numberOfSentence;
-		this.numberOfWords = numberOfWords;
-		this.averageWordCount = averageWordCount;
+		this.goodWords = goodWords;
+		this.badWords = badWords;
+		this.resultPercentage = resultPercentage;
 		this.ocrResultFile = ocrResultFile;
 	}
 	
@@ -113,6 +124,36 @@ public class OcrResult
 	public void setOcrResultFile(OcrDocument ocrResultFile)
 	{
 		this.ocrResultFile = ocrResultFile;
+	}
+	
+	public Integer getGoodWords()
+	{
+		return goodWords;
+	}
+	
+	public void setGoodWords(Integer goodWords)
+	{
+		this.goodWords = goodWords;
+	}
+	
+	public Integer getBadWords()
+	{
+		return badWords;
+	}
+	
+	public void setBadWords(Integer badWords)
+	{
+		this.badWords = badWords;
+	}
+	
+	public double getResultPercentage()
+	{
+		return resultPercentage;
+	}
+	
+	public void setResultPercentage(double resultPercentage)
+	{
+		this.resultPercentage = resultPercentage;
 	}
 	
 	@Override

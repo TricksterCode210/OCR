@@ -30,18 +30,25 @@ public class OcrResultConfig
 			ocrDocumentRepository.save(document);
 			OcrResult ocrResult = new OcrResult(
 				"teszt projekt",
-				2,
-				3,
 				1,
+				23,
+				23.0,
+				6,
+				17,
+				26.0869,
 				document
 			);
 			
 			OcrResult ocrResult2 = new OcrResult(
 				"teszt elek projekt",
-				2,
-				7,
-				3.5,
+				3,
+				31,
+				10.3333,
+				30,
+				1,
+				97.1234,
 				document
+				
 			);
 			
 			repository.saveAll(List.of(ocrResult, ocrResult2));
