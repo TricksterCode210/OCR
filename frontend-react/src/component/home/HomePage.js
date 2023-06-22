@@ -55,6 +55,15 @@ const HomePage = () => {
 			})
 	};
 
+	const saveOcr = () => {
+
+	}
+
+	const deleteResult = () => {
+		setOcrData(null)
+		setOcrResult('')
+	}
+
 	useEffect(() => {
 		convertImageToText(imageData1, setOcr1)
 	}, [imageData1, selectedLanguage])
@@ -112,7 +121,10 @@ const HomePage = () => {
 						<div className={"result-block"}>
 							<p>Helyes szavak száma: {ocrData.goodWords}</p>
 							<p>Helytelen szavak száma: {ocrData.badWords}</p>
-						</div> : <></>
+							<Button label={"Mentés"} onClick={saveOcr}/>
+							<Button label={"Eldobás"} onClick={deleteResult}/>
+						</div>
+							: <></>
 					}
 				</>
 				:
