@@ -65,7 +65,7 @@ public class OcrResultService
 				}
 				if(max == hasonlitas.get(key))
 				{
-					word = "_____";
+					word = "_____ ";
 				}
 			}
 			ocrText.append(word);
@@ -73,10 +73,13 @@ public class OcrResultService
 		result.setGoodWords(goodWord);
 		result.setBadWords(badWord);
 		result.setResultPercentage((double) goodWord/(goodWord+badWord)*100);
+		result.setNumberOfWords(needToCompare.values().size());
+		result.setAverageWordCount((double) result.getNumberOfWords()/result.getNumberOfSentence());
 		OcrDocument document = new OcrDocument(
 			"eredmény",
 			"txt",
-			ocrText.toString().getBytes("UTF-8")
+			ocrText.toString().getBytes("UTF-8"),
+			ocrText.toString()
 		);
 		result.setOcrResultFile(document);
 		return result;
@@ -102,6 +105,7 @@ public class OcrResultService
 				start = end;
 			}
 			List<String> szavak = new ArrayList<>(List.of(ocrElem.split(" ")));
+			result.setNumberOfSentence(sentences.size());
 			szovegek.put(counter, szavak);
 			counter++;
 		}

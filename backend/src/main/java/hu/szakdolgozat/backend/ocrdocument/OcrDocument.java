@@ -17,6 +17,7 @@ public class OcrDocument
 	private String name;
 	private String type;
 	private byte[] data;
+	private String text;
 	
 	public OcrDocument(String name, String type, byte[] data)
 	{
@@ -25,8 +26,26 @@ public class OcrDocument
 		this.data = data;
 	}
 	
+	public OcrDocument(String name, String type, byte[] data, String text)
+	{
+		this.name = name;
+		this.type = type;
+		this.data = data;
+		this.text = text;
+	}
+	
 	public OcrDocument()
 	{
+	}
+	
+	public String getText()
+	{
+		return text;
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
 	}
 	
 	public String getId()

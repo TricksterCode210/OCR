@@ -44,11 +44,12 @@ const HomePage = () => {
 			method: "POST",
 			headers:{"Content-Type":"application/json"},
 			body: JSON.stringify(list)
-		}).then((response) => {
-			console.log(response)
-			setOcrResult(response.toString)
-		})
-	}
+		}).then(result=> result.json())
+			.then((result)=>{
+				console.log(result)
+				setOcrResult(result.ocrResultFile?.text)
+			})
+	};
 
 	useEffect(() => {
 		convertImageToText(imageData1, setOcr1)
