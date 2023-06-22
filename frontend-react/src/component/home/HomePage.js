@@ -4,6 +4,8 @@ import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
 import {Button} from 'primereact/button'
 import {InputTextarea} from 'primereact/inputtextarea'
+import {Column} from 'primereact/column'
+import {DataTable} from 'primereact/datatable'
 
 const HomePage = () => {
 
@@ -18,6 +20,7 @@ const HomePage = () => {
 	const [ocr4, setOcr4] = useState('')
 
 	const [ocrResult, setOcrResult] = useState('')
+	const [ocrData, setOcrData] = useState()
 
 	const [selectedLanguage, setSelectedLanguage] = useState()
 
@@ -48,6 +51,7 @@ const HomePage = () => {
 			.then((result)=>{
 				console.log(result)
 				setOcrResult(result.ocrResultFile?.text)
+				setOcrData(result)
 			})
 	};
 
@@ -103,6 +107,13 @@ const HomePage = () => {
 					<div className={"result-block"}>
 						<InputTextarea value={ocrResult} autoResize readOnly id={"ocr-result"}/>
 					</div>
+					{
+						(ocrData) ?
+						<div className={"result-block"}>
+							<p>Helyes szavak száma: {ocrData.goodWords}</p>
+							<p>Helytelen szavak száma: {ocrData.badWords}</p>
+						</div> : <></>
+					}
 				</>
 				:
 				<p className={'text-center'} style={{color: '#61dafb'}}>Kérem válasszon nyelvet először!</p>}
