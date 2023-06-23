@@ -4,8 +4,6 @@ import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
 import {Button} from 'primereact/button'
 import {InputTextarea} from 'primereact/inputtextarea'
-import {Column} from 'primereact/column'
-import {DataTable} from 'primereact/datatable'
 
 const HomePage = () => {
 
@@ -55,8 +53,20 @@ const HomePage = () => {
 			})
 	};
 
-	const saveOcr = () => {
-
+	const saveOcr = async (e) => {
+		e.preventDefault();
+		await fetch('http://localhost:8080/homePage/save', {
+			method: "PUT",
+			headers:{"Content-Type":"application/json"},
+			body: JSON.stringify(ocrData)
+		}).then( () => {
+			setOcrData(null)
+			setOcrResult('')
+			setOcr1('')
+			setOcr2('')
+			setOcr3('')
+			setOcr4('')
+		})
 	}
 
 	const deleteResult = () => {

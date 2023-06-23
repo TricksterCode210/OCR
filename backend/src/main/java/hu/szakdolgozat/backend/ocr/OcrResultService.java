@@ -1,6 +1,7 @@
 package hu.szakdolgozat.backend.ocr;
 
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
+import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
 import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -15,11 +16,13 @@ import org.springframework.stereotype.Service;
 public class OcrResultService
 {
 	private final OcrResultRepository ocrResultRepository;
+	private final OcrDocumentRepository ocrDocumentRepository;
 	
 	@Autowired
-	public OcrResultService(OcrResultRepository ocrResultRepository)
+	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository)
 	{
-		this.ocrResultRepository=ocrResultRepository;
+		this.ocrResultRepository = ocrResultRepository;
+		this.ocrDocumentRepository = ocrDocumentRepository;
 	}
 	
 	public List<OcrResult> getOcrResults()
@@ -127,5 +130,27 @@ public class OcrResultService
 		
 		result = compareWords(osszehasonlitoMap, result);
 		return result;
+	}
+	
+	public void save(OcrResult entity)
+	{
+		OcrDocument ocrDocument = new OcrDocument(
+			entity.getOcrResultFile().getName(),
+			entity.getOcrResultFile().getType(),
+			entity.getOcrResultFile().getData(),
+			entity.getOcrResultFile().getText()
+		);
+		ocrDocumentRepository.save(ocrDocument);
+		OcrResult ocrResult = new OcrResult(
+			entity.getProjectName(),
+			entity.getNumberOfSentence(),
+			entity.getNumberOfWords(),
+			entity.getAverageWordCount(),
+			entity.getGoodWords(),
+			entity.getBadWords(),
+			entity.getResultPercentage(),
+			ocrDocument
+		);
+		ocrResultRepository.save(ocrResult);
 	}
 }

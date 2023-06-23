@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,11 +33,14 @@ public class OcrResultController
 		return ocrResultService.getOcrResults();
 	}
 	
-	
-	
 	@PostMapping(path = "/homePage")
 	public OcrResult ocrResultGenerate(@RequestBody List<String> listOfOcrResults) throws UnsupportedEncodingException
 	{
 		return ocrResultService.ocrResultGenerate(listOfOcrResults);
+	}
+	
+	@PutMapping(path = "/homePage/save")
+	public void save(@RequestBody OcrResult ocrResult){
+		ocrResultService.save(ocrResult);
 	}
 }
