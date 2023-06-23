@@ -5,20 +5,9 @@ import {useEffect, useState} from 'react'
 const ResultTable = (rowData) => {
 	const [results, setResults] = useState()
 
-	const downloadTxtFile = (rowData) => {
-
-		if(rowData) {
-			const element = document.createElement("a");
-			const file = new Blob(rowData.ocrResultFile?.data.toString(), {type: 'text/plain'});
-			element.href = URL.createObjectURL(file);
-			element.download = rowData.ocrResultFile?.name + ".txt";
-			document.body.appendChild(element); // Required for this to work in FireFox
-			element.click();
-		}
-	}
-
 	const downloadFile = (rowData) => {
-		return <button onClick={downloadTxtFile}>Download txt</button>
+		const file = new Blob([String.fromCharCode("0xFEFF"), rowData.ocrResultFile?.text], {type: 'text/plain'});
+		return <a href={URL.createObjectURL(file)} download={rowData.ocrResultFile?.name + ".txt"}>Letöltés</a>
 	}
 
 
@@ -39,7 +28,7 @@ const ResultTable = (rowData) => {
 			<Column field={'goodWords'} header={"Helyesen olvasott szavak száma"}/>
 			<Column field={'badWords'} header={"Helytelenül olvasott szavak száma"}/>
 			<Column field={'resultPercentage'} header={"Helyességi arány"}/>
-			<Column field={'ocrResult'} header={"OCR eredmény"} body={downloadFile}/>
+			<Column field={'ocrResult'} header={"OCR eredmény"} body={(rowData) => downloadFile(rowData)}/>
 		</DataTable>
 	</>
 }

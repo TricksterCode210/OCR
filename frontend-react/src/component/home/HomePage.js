@@ -129,8 +129,8 @@ const HomePage = () => {
 					{
 						(ocrData) ?
 						<div className={"result-block"}>
-							<p>Helyes szavak száma: {ocrData.goodWords}</p>
-							<p>Helytelen szavak száma: {ocrData.badWords}</p>
+							<p>Helyes szavak száma: {ocrData.goodWords} </p>
+							<p>Helytelen szavak száma: {ocrData.badWords} </p>
 							<Button label={"Mentés"} onClick={saveOcr}/>
 							<Button label={"Eldobás"} onClick={deleteResult}/>
 						</div>

@@ -13,13 +13,6 @@ public class OcrDocumentService
 	@Autowired
 	private OcrDocumentRepository ocrDocumentRepository;
 	
-	public OcrDocument store(MultipartFile file) throws IOException{
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		OcrDocument ocrDocument = new OcrDocument(fileName, file.getContentType(), file.getBytes());
-		
-		return ocrDocumentRepository.save(ocrDocument);
-	}
-	
 	public OcrDocument getFile(String id) {
 		return ocrDocumentRepository.findById(id).get();
 	}

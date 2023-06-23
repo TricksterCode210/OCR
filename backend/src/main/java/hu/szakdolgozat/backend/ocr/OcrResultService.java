@@ -81,7 +81,6 @@ public class OcrResultService
 		OcrDocument document = new OcrDocument(
 			"eredmény",
 			"txt",
-			ocrText.toString().getBytes("UTF-8"),
 			ocrText.toString()
 		);
 		result.setOcrResultFile(document);
@@ -137,7 +136,6 @@ public class OcrResultService
 		OcrDocument ocrDocument = new OcrDocument(
 			entity.getOcrResultFile().getName(),
 			entity.getOcrResultFile().getType(),
-			entity.getOcrResultFile().getData(),
 			entity.getOcrResultFile().getText()
 		);
 		ocrDocumentRepository.save(ocrDocument);
@@ -153,4 +151,5 @@ public class OcrResultService
 		);
 		ocrResultRepository.save(ocrResult);
 	}
+	
 }

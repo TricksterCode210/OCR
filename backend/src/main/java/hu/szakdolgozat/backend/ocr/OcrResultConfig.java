@@ -25,7 +25,6 @@ public class OcrResultConfig
 			OcrDocument document = new OcrDocument(
 				"teszt",
 				"txt",
-				"teszt szöveg".getBytes("UTF-8"),
 				"teszt szöveg"
 			);
 			ocrDocumentRepository.save(document);
