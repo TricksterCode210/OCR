@@ -7,10 +7,12 @@ import hu.szakdolgozat.backend.possiblevalues.PossibleValuesRepository;
 import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,7 @@ public class OcrResultService
 			}
 			if(word.equals("_____ "))
 			{
-				String temp = words.toString();
+				String temp = words.stream().collect(Collectors.joining(", ", "", ""));
 				possibleValuesList.add(new PossibleValues("", counter, temp));
 				counter++;
 			}

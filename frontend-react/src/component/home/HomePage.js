@@ -7,6 +7,7 @@ import {InputTextarea} from 'primereact/inputtextarea'
 import {Form, Formik} from 'formik'
 import CustomInput from '../CustomInput'
 import {VStack} from '@chakra-ui/react'
+import ChooseWord from './ChooseWord'
 
 const HomePage = () => {
 
@@ -20,7 +21,8 @@ const HomePage = () => {
 	const [ocr3, setOcr3] = useState('')
 	const [ocr4, setOcr4] = useState('')
 
-	const [ocrResult, setOcrResult] = useState('')
+	const [finish, setFinish] = useState(false)
+
 	const [ocrData, setOcrData] = useState()
 
 	const [selectedLanguage, setSelectedLanguage] = useState()
@@ -51,8 +53,8 @@ const HomePage = () => {
 		}).then(result => result.json())
 			.then((result) => {
 				console.log(result)
-				setOcrResult(result.ocrResultFile?.text)
 				setOcrData(result)
+				setFinish(false)
 			})
 	}
 
@@ -63,7 +65,6 @@ const HomePage = () => {
 			body: JSON.stringify(ocrData)
 		}).then(() => {
 			setOcrData(null)
-			setOcrResult('')
 			setOcr1('')
 			setOcr2('')
 			setOcr3('')
@@ -73,7 +74,6 @@ const HomePage = () => {
 
 	const deleteResult = () => {
 		setOcrData(null)
-		setOcrResult('')
 	}
 
 	useEffect(() => {
@@ -126,46 +126,54 @@ const HomePage = () => {
 						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
 					</div>
 					<div className={'result-block'}>
-						<InputTextarea value={ocrResult} autoResize readOnly id={'ocr-result'}/>
+						<InputTextarea value={ocrData?.ocrResultFile?.text} autoResize readOnly id={'ocr-result'}/>
 					</div>
 					{
 						(ocrData) ?
 							<div className={'result-block'}>
-								{(ocrData.possibleValues.length > 0 ? <h1>teszt</h1> :
-								<Formik
-									enableReinitialize
-									initialValues={ocrData}
-									onSubmit={(data) => {
-										handleSubmit(data)
-									}}
-								>
-									{({values, handleChange, handleBlur, handleSubmit}) => (
-										<Form>
-											<VStack>
-												<CustomInput
-													className={"m-1"}
-													label={"Projekt név: "}
-													type={"text"}
-													name={"projectName"}
-													value={values.projectName}
-													onChange={handleChange}
-													onBlur={handleBlur}
-												/>
-												<CustomInput
-													className={"m-1"}
-													label={"Fájl neve: "}
-													type={"text"}
-													name={"ocrResultFile.name"}
-													value={values.ocrResultFile?.name}
-													onChange={handleChange}
-													onBlur={handleBlur}
-												/>
-												<button disabled={values.projectName === "" || values.ocrResultFile?.name === ""} className={"register-btn"} type="submit" >Mentés</button>
-												<Button label={'Eldobás'} onClick={deleteResult}/>
-											</VStack>
-										</Form>
-									)}
-								</Formik>
+								{(ocrData.possibleValues?.length > 0 && !finish ?
+										<ChooseWord
+											possibleValues={ocrData.possibleValues}
+											setOcrResult={setOcrData}
+											ocrResult={ocrData}
+											size={ocrData.possibleValues?.length}
+											setFinish={setFinish}
+										/>
+										:
+										<Formik
+											enableReinitialize
+											initialValues={ocrData}
+											onSubmit={(data) => {
+												handleSubmit(data)
+											}}
+										>
+											{({values, handleChange, handleBlur, handleSubmit}) => (
+												<Form>
+													<VStack>
+														<CustomInput
+															className={'m-1'}
+															label={'Projekt név: '}
+															type={'text'}
+															name={'projectName'}
+															value={values.projectName}
+															onChange={handleChange}
+															onBlur={handleBlur}
+														/>
+														<CustomInput
+															className={'m-1'}
+															label={'Fájl neve: '}
+															type={'text'}
+															name={'ocrResultFile.name'}
+															value={values.ocrResultFile?.name}
+															onChange={handleChange}
+															onBlur={handleBlur}
+														/>
+														<button disabled={values.projectName === '' || values.ocrResultFile?.name === ''} className={'register-btn'} type="submit">Mentés</button>
+														<Button label={'Eldobás'} onClick={deleteResult}/>
+													</VStack>
+												</Form>
+											)}
+										</Formik>
 								)}
 							</div>
 							: <></>
