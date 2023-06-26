@@ -50,6 +50,7 @@ const HomePage = () => {
 			body: JSON.stringify(list)
 		}).then(result => result.json())
 			.then((result) => {
+				console.log(result)
 				setOcrResult(result.ocrResultFile?.text)
 				setOcrData(result)
 			})
@@ -130,6 +131,7 @@ const HomePage = () => {
 					{
 						(ocrData) ?
 							<div className={'result-block'}>
+								{(ocrData.possibleValues.length > 0 ? <h1>teszt</h1> :
 								<Formik
 									enableReinitialize
 									initialValues={ocrData}
@@ -164,22 +166,7 @@ const HomePage = () => {
 										</Form>
 									)}
 								</Formik>
-								{/*<div>*/}
-								{/*	<p>Helyes szavak száma: {ocrData.goodWords} </p>*/}
-								{/*	<p>Helytelen szavak száma: {ocrData.badWords} </p>*/}
-								{/*</div>*/}
-								{/*<div>*/}
-								{/*	<input type={'text'} id={'project_name'} onChange={e => setOcrData(ocrData => ({*/}
-								{/*		ocrData: {*/}
-								{/*			...ocrData,*/}
-								{/*			projectName: e.target.value*/}
-								{/*		}*/}
-								{/*	}))}/>*/}
-								{/*</div>*/}
-								{/*<div>*/}
-								{/*	<Button label={'Mentés'} onClick={saveOcr}/>*/}
-								{/*	<Button label={'Eldobás'} onClick={deleteResult}/>*/}
-								{/*</div>*/}
+								)}
 							</div>
 							: <></>
 					}

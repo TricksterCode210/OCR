@@ -2,6 +2,8 @@ package hu.szakdolgozat.backend.ocr;
 
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
+import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
+import hu.szakdolgozat.backend.possiblevalues.PossibleValuesRepository;
 import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
@@ -17,12 +19,14 @@ public class OcrResultService
 {
 	private final OcrResultRepository ocrResultRepository;
 	private final OcrDocumentRepository ocrDocumentRepository;
+	private final PossibleValuesRepository possibleValuesRepository;
 	
 	@Autowired
-	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository)
+	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository)
 	{
 		this.ocrResultRepository = ocrResultRepository;
 		this.ocrDocumentRepository = ocrDocumentRepository;
+		this.possibleValuesRepository = possibleValuesRepository;
 	}
 	
 	public List<OcrResult> getOcrResults()
@@ -35,6 +39,8 @@ public class OcrResultService
 		StringBuilder ocrText = new StringBuilder();
 		int goodWord = 0;
 		int badWord = 0;
+		List<PossibleValues> possibleValuesList = new ArrayList<>();
+		int counter = 1;
 		for(List<String> words : needToCompare.values())
 		{
 			Map<String, Integer> hasonlitas = new HashMap<>();
@@ -71,6 +77,12 @@ public class OcrResultService
 					word = "_____ ";
 				}
 			}
+			if(word.equals("_____ "))
+			{
+				String temp = words.toString();
+				possibleValuesList.add(new PossibleValues("", counter, temp));
+				counter++;
+			}
 			ocrText.append(word);
 		}
 		result.setGoodWords(goodWord);
@@ -78,6 +90,9 @@ public class OcrResultService
 		result.setResultPercentage((double) goodWord/(goodWord+badWord)*100);
 		result.setNumberOfWords(needToCompare.values().size());
 		result.setAverageWordCount((double) result.getNumberOfWords()/result.getNumberOfSentence());
+		
+		possibleValuesRepository.saveAll(possibleValuesList);
+		result.setPossibleValues(possibleValuesList);
 		OcrDocument document = new OcrDocument(
 			"",
 			"txt",

@@ -1,12 +1,14 @@
 package hu.szakdolgozat.backend.ocr;
 
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
-import java.io.File;
+import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -37,6 +39,10 @@ public class OcrResult
 	@JoinColumn(name = "ocr_result_file_id")
 	private OcrDocument ocrResultFile;
 	
+	@OneToMany
+	@JoinColumn(name = "possible_values")
+	private List<PossibleValues> possibleValueDtos;
+	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
 		OcrDocument ocrResultFile)
 	{
@@ -50,8 +56,23 @@ public class OcrResult
 		this.ocrResultFile = ocrResultFile;
 	}
 	
+	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
+		OcrDocument ocrResultFile,
+		List<PossibleValues> possibleValueDtos)
+	{
+		this.projectName = projectName;
+		this.numberOfSentence = numberOfSentence;
+		this.numberOfWords = numberOfWords;
+		this.averageWordCount = averageWordCount;
+		this.goodWords = goodWords;
+		this.badWords = badWords;
+		this.resultPercentage = resultPercentage;
+		this.ocrResultFile = ocrResultFile;
+		this.possibleValueDtos = possibleValueDtos;
+	}
+	
 	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
-		OcrDocument ocrResultFile)
+		OcrDocument ocrResultFile, List<PossibleValues> possibleValueDtos)
 	{
 		this.id = id;
 		this.projectName = projectName;
@@ -62,6 +83,7 @@ public class OcrResult
 		this.badWords = badWords;
 		this.resultPercentage = resultPercentage;
 		this.ocrResultFile = ocrResultFile;
+		this.possibleValueDtos = possibleValueDtos;
 	}
 	
 	public OcrResult() {}
@@ -154,6 +176,16 @@ public class OcrResult
 	public void setResultPercentage(double resultPercentage)
 	{
 		this.resultPercentage = resultPercentage;
+	}
+	
+	public List<PossibleValues> getPossibleValues()
+	{
+		return possibleValueDtos;
+	}
+	
+	public void setPossibleValues(List<PossibleValues> possibleValueDtos)
+	{
+		this.possibleValueDtos = possibleValueDtos;
 	}
 	
 	@Override
