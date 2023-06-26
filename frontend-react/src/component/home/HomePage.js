@@ -4,6 +4,9 @@ import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
 import {Button} from 'primereact/button'
 import {InputTextarea} from 'primereact/inputtextarea'
+import {Form, Formik} from 'formik'
+import CustomInput from '../CustomInput'
+import {VStack} from '@chakra-ui/react'
 
 const HomePage = () => {
 
@@ -39,27 +42,25 @@ const HomePage = () => {
 	}
 
 	const makeResult = async (e) => {
-		e.preventDefault();
+		e.preventDefault()
 		const list = [ocr1, ocr2, ocr3, ocr4]
 		await fetch('http://localhost:8080/homePage', {
-			method: "POST",
-			headers:{"Content-Type":"application/json"},
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(list)
-		}).then(result=> result.json())
-			.then((result)=>{
-				console.log(result)
+		}).then(result => result.json())
+			.then((result) => {
 				setOcrResult(result.ocrResultFile?.text)
 				setOcrData(result)
 			})
-	};
+	}
 
-	const saveOcr = async (e) => {
-		e.preventDefault();
+	const handleSubmit = async (ocrData) => {
 		await fetch('http://localhost:8080/homePage/save', {
-			method: "PUT",
-			headers:{"Content-Type":"application/json"},
+			method: 'PUT',
+			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(ocrData)
-		}).then( () => {
+		}).then(() => {
 			setOcrData(null)
 			setOcrResult('')
 			setOcr1('')
@@ -120,20 +121,66 @@ const HomePage = () => {
 					<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2} setOcr={setOcr2}/>
 					<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3} setOcr={setOcr3}/>
 					<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4} setOcr={setOcr4}/>
-					<div className={"result-block"}>
-						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={"OCR eredmény készítés"} id={"ocr-button"} onClick={e => makeResult(e)}/>
+					<div className={'result-block'}>
+						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
 					</div>
-					<div className={"result-block"}>
-						<InputTextarea value={ocrResult} autoResize readOnly id={"ocr-result"}/>
+					<div className={'result-block'}>
+						<InputTextarea value={ocrResult} autoResize readOnly id={'ocr-result'}/>
 					</div>
 					{
 						(ocrData) ?
-						<div className={"result-block"}>
-							<p>Helyes szavak száma: {ocrData.goodWords} </p>
-							<p>Helytelen szavak száma: {ocrData.badWords} </p>
-							<Button label={"Mentés"} onClick={saveOcr}/>
-							<Button label={"Eldobás"} onClick={deleteResult}/>
-						</div>
+							<div className={'result-block'}>
+								<Formik
+									enableReinitialize
+									initialValues={ocrData}
+									onSubmit={(data) => {
+										handleSubmit(data)
+									}}
+								>
+									{({values, handleChange, handleBlur, handleSubmit}) => (
+										<Form>
+											<VStack>
+												<CustomInput
+													className={"m-1"}
+													label={"Projekt név: "}
+													type={"text"}
+													name={"projectName"}
+													value={values.projectName}
+													onChange={handleChange}
+													onBlur={handleBlur}
+												/>
+												<CustomInput
+													className={"m-1"}
+													label={"Fájl neve: "}
+													type={"text"}
+													name={"ocrResultFile.name"}
+													value={values.ocrResultFile?.name}
+													onChange={handleChange}
+													onBlur={handleBlur}
+												/>
+												<button disabled={values.projectName === "" || values.ocrResultFile?.name === ""} className={"register-btn"} type="submit" >Mentés</button>
+												<Button label={'Eldobás'} onClick={deleteResult}/>
+											</VStack>
+										</Form>
+									)}
+								</Formik>
+								{/*<div>*/}
+								{/*	<p>Helyes szavak száma: {ocrData.goodWords} </p>*/}
+								{/*	<p>Helytelen szavak száma: {ocrData.badWords} </p>*/}
+								{/*</div>*/}
+								{/*<div>*/}
+								{/*	<input type={'text'} id={'project_name'} onChange={e => setOcrData(ocrData => ({*/}
+								{/*		ocrData: {*/}
+								{/*			...ocrData,*/}
+								{/*			projectName: e.target.value*/}
+								{/*		}*/}
+								{/*	}))}/>*/}
+								{/*</div>*/}
+								{/*<div>*/}
+								{/*	<Button label={'Mentés'} onClick={saveOcr}/>*/}
+								{/*	<Button label={'Eldobás'} onClick={deleteResult}/>*/}
+								{/*</div>*/}
+							</div>
 							: <></>
 					}
 				</>

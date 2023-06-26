@@ -79,7 +79,7 @@ public class OcrResultService
 		result.setNumberOfWords(needToCompare.values().size());
 		result.setAverageWordCount((double) result.getNumberOfWords()/result.getNumberOfSentence());
 		OcrDocument document = new OcrDocument(
-			"eredmény",
+			"",
 			"txt",
 			ocrText.toString()
 		);
@@ -91,8 +91,8 @@ public class OcrResultService
 	{
 		OcrResult result = new OcrResult();
 		Map<Integer, List<String>> szovegek = new HashMap<>();
+		result.setProjectName("");
 		int counter = 1;
-		result.setProjectName("Teszt példa");
 		for(String ocrElem : listOfOcrResults)
 		{
 			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
@@ -134,7 +134,7 @@ public class OcrResultService
 	public void save(OcrResult entity)
 	{
 		OcrDocument ocrDocument = new OcrDocument(
-			entity.getOcrResultFile().getName(),
+			entity.getOcrResultFile().getName().toLowerCase().replace(" ", "_"),
 			entity.getOcrResultFile().getType(),
 			entity.getOcrResultFile().getText()
 		);

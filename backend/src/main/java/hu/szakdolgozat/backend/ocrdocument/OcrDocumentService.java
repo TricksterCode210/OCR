@@ -10,8 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class OcrDocumentService
 {
+	private final OcrDocumentRepository ocrDocumentRepository;
+	
 	@Autowired
-	private OcrDocumentRepository ocrDocumentRepository;
+	public OcrDocumentService(OcrDocumentRepository ocrDocumentRepository)
+	{
+		this.ocrDocumentRepository = ocrDocumentRepository;
+	}
 	
 	public OcrDocument getFile(String id) {
 		return ocrDocumentRepository.findById(id).get();
