@@ -29,7 +29,10 @@ const HomePage = () => {
 
 	const languages = [
 		{name: 'Magyar', code: 'hun'},
-		{name: 'Angol', code: 'eng'}
+		{name: 'Angol', code: 'eng'},
+		{name: 'Német', code: 'deu'},
+		{name: 'Francia', code: 'fra'}
+
 	]
 
 	const convertImageToText = async (imageData, setOcr) => {

@@ -51,7 +51,7 @@ const InputFields = ({
 
 	return (
 		<div className="container-fluid mt-5 mb-5 border border-info rounded-4">
-			<div className={'row m-0'}>
+			<div className={'row'}>
 				<HStack>
 					<div className={'col-3'}>
 						<Dropdown
