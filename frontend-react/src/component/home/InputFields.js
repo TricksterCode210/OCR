@@ -31,6 +31,10 @@ const InputFields = ({
 
 	function handleTextChange(e) {
 		e.preventDefault();
+		if(!e.target.files[0])
+		{
+			return
+		}
 		const reader = new FileReader();
 		reader.onload = (e) => {
 			const text = e.target.result;

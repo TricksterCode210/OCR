@@ -168,7 +168,7 @@ input[type="file"] {
   font-size: 10px;
 }
 
-.login-btn, .register-btn{
+.login-btn, .register-btn, .choose-btn{
   border: none;
   background-color: #393d45;
   padding: 20px;
@@ -179,7 +179,7 @@ input[type="file"] {
   margin: 1rem
 }
 
-.login-btn:hover:enabled, .register-btn:hover:enabled{
+.login-btn:hover:enabled, .register-btn:hover:enabled, .choose-btn:hover:enabled{
   animation: change-color 0.5s linear;
   background-color: #61dafb;
   color:black;

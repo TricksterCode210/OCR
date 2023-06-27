@@ -123,7 +123,7 @@ public class OcrResultService
 				sentences.add(ocrElem.substring(start, end));
 				start = end;
 			}
-			List<String> szavak = new ArrayList<>(List.of(ocrElem.split(" ")));
+			List<String> szavak = new ArrayList<>(List.of(ocrElem.split("[ \n\t]")));
 			result.setNumberOfSentence(sentences.size());
 			szovegek.put(counter, szavak);
 			counter++;

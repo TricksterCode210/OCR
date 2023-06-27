@@ -34,13 +34,19 @@ const ChooseWord = ({
 		setWord2(possibleValues[counter].possibleWords.split(", ")[1])
 		setWord3(possibleValues[counter].possibleWords.split(", ")[2])
 		setWord4(possibleValues[counter].possibleWords.split(", ")[3])
-	}, [counter])
+	}, [counter, possibleValues])
 
 	return <>
-		<button id={'number_1'} onClick={() => handleClick(word1)}> {word1}</button>
-		<button id={'number_2'} onClick={() => handleClick(word2)} >{word2}</button>
-		<button id={'number_3'} onClick={() => handleClick(word3)} >{word3}</button>
-		<button id={'number_4'} onClick={() => handleClick(word4)} >{word4}</button>
+		<button id={'number_1'} className={"choose-btn"} onClick={() => handleClick(word1)}> {word1}</button>
+		{word1 !== word2 ?
+			<button id={'number_2'} className={"choose-btn"} onClick={() => handleClick(word2)}>{word2}</button> : <></>
+		}
+		{ word1 !== word3 && word2 !== word3 ?
+			<button id={'number_3'} className={"choose-btn"} onClick={() => handleClick(word3)}>{word3}</button> : <></>
+		}
+		{ word1 !== word4 && word2 !== word4 && word3 !== word4 ?
+			<button id={'number_4'} className={"choose-btn"} onClick={() => handleClick(word4)}>{word4}</button> : <></>
+		}
 	</>
 }
 

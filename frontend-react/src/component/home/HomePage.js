@@ -69,6 +69,10 @@ const HomePage = () => {
 			setOcr2('')
 			setOcr3('')
 			setOcr4('')
+			setImageData1()
+			setImageData2()
+			setImageData3()
+			setImageData4()
 		})
 	}
 
@@ -125,7 +129,7 @@ const HomePage = () => {
 					<div className={'result-block'}>
 						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
 					</div>
-					<div className={'result-block'}>
+					<div className={'result-block'} hidden={ocrData === null}>
 						<InputTextarea value={ocrData?.ocrResultFile?.text} autoResize readOnly id={'ocr-result'}/>
 					</div>
 					{
