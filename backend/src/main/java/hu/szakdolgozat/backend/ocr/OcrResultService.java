@@ -93,7 +93,6 @@ public class OcrResultService
 		result.setNumberOfWords(needToCompare.values().size());
 		result.setAverageWordCount((double) result.getNumberOfWords()/result.getNumberOfSentence());
 		
-		possibleValuesRepository.saveAll(possibleValuesList);
 		result.setPossibleValues(possibleValuesList);
 		OcrDocument document = new OcrDocument(
 			"",
