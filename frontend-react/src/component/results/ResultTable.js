@@ -1,6 +1,7 @@
 import {DataTable} from 'primereact/datatable'
 import {Column} from 'primereact/column'
 import {useEffect, useState} from 'react'
+import {Button} from 'primereact/button'
 
 const ResultTable = (rowData) => {
 	const [results, setResults] = useState()
@@ -8,6 +9,18 @@ const ResultTable = (rowData) => {
 	const downloadFile = (rowData) => {
 		const file = new Blob([String.fromCharCode("0xFEFF"), rowData.ocrResultFile?.text], {type: 'text/plain'});
 		return <a href={URL.createObjectURL(file)} download={rowData.ocrResultFile?.name + ".txt"}>Letöltés</a>
+	}
+
+	const deleteResult = async (id) => {
+		fetch(`http://localhost:8080/results/${id}`, {
+			method:"DELETE"
+		}).then(()=>{
+			window.location.reload();
+		})
+	}
+
+	const buttonGroup = (rowData) => {
+		return <Button label={'Törlés'} severity={'danger'} className={'me-3'} onClick={() => deleteResult(rowData.id)}/>
 	}
 
 
@@ -21,6 +34,7 @@ const ResultTable = (rowData) => {
 
 	return <>
 		<DataTable value={results} id={"result-table"}>
+			<Column field={'button-group'} header={""} body={buttonGroup}/>
 			<Column field={'projectName'} header={"Projekt név"}/>
 			<Column field={'numberOfSentence'} header={"Mondatok száma"}/>
 			<Column field={'numberOfWords'} header={"Szavak száma"}/>

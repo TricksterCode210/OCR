@@ -169,4 +169,13 @@ public class OcrResultService
 		ocrResultRepository.save(ocrResult);
 	}
 	
+	public void deleteResult(Long id)
+	{
+		boolean exists = ocrResultRepository.existsById(id);
+		if(!exists){
+			throw new IllegalStateException("Nem létezik");
+		}
+		ocrResultRepository.deleteById(id);
+	}
+	
 }
