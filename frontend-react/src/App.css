@@ -102,6 +102,39 @@ input[type="file"] {
   display: none;
 }
 
+.info-picture{
+  width:100%;
+}
+
+p.info-text {
+  font-size:1.5rem;
+}
+
+.col-4.paragraph{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: black 2px solid;
+}
+
+.paragraph::first-letter{
+  padding-left: 2rem;
+}
+
+.information-box{
+  background-color: white;
+  color:black;
+  border-radius: 15px;
+}
+
+.cim{
+  text-align: center;
+}
+
+.row-data{
+  padding-top: 1rem;
+}
+
 .custom-file-upload {
   border: 1px solid #ffffff;
   width: 10rem;
