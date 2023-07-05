@@ -99,6 +99,16 @@ const HomePage = () => {
 		convertImageToText(imageData4, setOcr4)
 	}, [imageData4, selectedLanguage])
 
+	const changeOcrResult = (e) => {
+		setOcrData(ocrResult => ({
+			...ocrResult,
+			ocrResultFile: {
+				...ocrResult.ocrResultFile,
+				text: e.target.value
+			}
+		}))
+	}
+
 	return (
 		<div className={'container-fluid scanners'}>
 			<div className={'row'}>
@@ -133,7 +143,12 @@ const HomePage = () => {
 						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
 					</div>
 					<div className={'result-block'} hidden={ocrData === null}>
-						<InputTextarea value={ocrData?.ocrResultFile?.text} autoResize readOnly id={'ocr-result'}/>
+						<InputTextarea
+							value={ocrData?.ocrResultFile?.text}
+							autoResize
+							readOnly={ocrData?.possibleValues?.length > 0 && !finish}
+							id={'ocr-result'}
+							onChange={changeOcrResult}/>
 					</div>
 					{
 						(ocrData) ?
