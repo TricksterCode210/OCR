@@ -2,6 +2,7 @@ package hu.szakdolgozat.backend.ocr;
 
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,7 +87,9 @@ public class OcrResult
 		this.possibleValueDtos = possibleValueDtos;
 	}
 	
-	public OcrResult() {}
+	public OcrResult() {
+		this.possibleValueDtos = new ArrayList<>();
+	}
 	
 	public Long getId()
 	{

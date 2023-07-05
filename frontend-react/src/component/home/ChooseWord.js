@@ -38,10 +38,10 @@ const ChooseWord = ({
 
 	return <>
 		<button id={'number_1'} className={"choose-btn"} onClick={() => handleClick(word1)}> {word1}</button>
-		{word1 !== word2 ?
+		{word1 !== word2 && word2 !== undefined?
 			<button id={'number_2'} className={"choose-btn"} onClick={() => handleClick(word2)}>{word2}</button> : <></>
 		}
-		{ word1 !== word3 && word2 !== word3 ?
+		{ word1 !== word3 && word2 !== word3 && word3 !== undefined ?
 			<button id={'number_3'} className={"choose-btn"} onClick={() => handleClick(word3)}>{word3}</button> : <></>
 		}
 		{ word1 !== word4 && word2 !== word4 && word3 !== word4 ?

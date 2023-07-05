@@ -36,114 +36,188 @@ public class OcrResultService
 		return ocrResultRepository.findAll();
 	}
 	
-	public OcrResult compareWords(Map<Integer, List<String>> needToCompare, OcrResult result) throws UnsupportedEncodingException
+	public int calculate(String x, String y)
 	{
-		StringBuilder ocrText = new StringBuilder();
-		int goodWord = 0;
-		int badWord = 0;
-		List<PossibleValues> possibleValuesList = new ArrayList<>();
-		int counter = 1;
-		for(List<String> words : needToCompare.values())
+		int[][] dp = new int[x.length() + 1][y.length() + 1];
+		
+		for (int i = 0; i <= x.length(); i++)
 		{
-			Map<String, Integer> hasonlitas = new HashMap<>();
-			for(int i = 0; i<words.size(); i++)
+			for (int j = 0; j <= y.length(); j++)
 			{
-				if(hasonlitas.get(words.get(i)) == null)
-					hasonlitas.put(words.get(i), 1);
-				else
-					hasonlitas.put(words.get(i), hasonlitas.get(words.get(i)) + 1);
-			}
-			int max = 0;
-			String word = "";
-			boolean first = true;
-			for(String key : hasonlitas.keySet())
-			{
-				if(hasonlitas.size()==1)
+				if (i == 0)
 				{
-					goodWord++;
-					word = key + " ";
+					dp[i][j] = j;
+				}
+				else if (j == 0)
+				{
+					dp[i][j] = i;
+				}
+				else
+				{
+					dp[i][j] = min(dp[i - 1][j - 1]
+							+ costOfSubstitution(x.charAt(i - 1), y.charAt(j - 1)),
+						dp[i - 1][j] + 1,
+						dp[i][j - 1] + 1);
+				}
+			}
+		}
+		return dp[x.length()][y.length()];
+	}
+	
+	public int costOfSubstitution(char a, char b)
+	{
+		return a == b ? 0 : 1;
+	}
+	
+	public int min(int... numbers)
+	{
+		return Arrays.stream(numbers)
+			.min().orElse(Integer.MAX_VALUE);
+	}
+	
+	public String comparingSentences(OcrResult result, List<String> needToCompare){
+		StringBuilder ocrResult = new StringBuilder();
+		List<List<String>> splittedSentences = new ArrayList<>();
+		List<PossibleValues> possibleValuesList = new ArrayList<>();
+		
+		int longestSentence = 0;
+		for(int i = 0; i<needToCompare.size(); i++)
+		{
+			splittedSentences.add(List.of(needToCompare.get(i).split("[ \t]")));
+			if(longestSentence < needToCompare.get(i).split("[ \t]").length)
+			{
+				longestSentence = i;
+			}
+		}
+		int x = 0;
+		String word = "";
+		boolean first = true;
+		for (int wordIndex = 0; wordIndex < splittedSentences.get(longestSentence).size(); wordIndex++)
+		{
+			Map<String, Integer> hasonlitasMap = new HashMap<>();
+			for (int i = 0; i < splittedSentences.size(); i++)
+			{
+				for (int j = 0; j < splittedSentences.size(); j++)
+				{
+					if (i != j)
+					{
+						int tav = Integer.MAX_VALUE;
+						for (int wordIndexDifference = -3; wordIndexDifference <= 3; wordIndexDifference++)
+						{
+							if (wordIndex + wordIndexDifference >= 0 && splittedSentences.get(j).size() > wordIndex + wordIndexDifference)
+							{
+								x = calculate(splittedSentences.get(i).get(wordIndex), splittedSentences.get(j).get(wordIndex + wordIndexDifference));
+								if (tav > x)
+								{
+									tav = x;
+									word = splittedSentences.get(j).get(wordIndex + wordIndexDifference);
+								}
+								if (tav == 0)
+								{
+									break;
+								}
+							}
+						}
+						if (hasonlitasMap.get(word) == null)
+						{
+							hasonlitasMap.put(word, 1);
+						}
+						else
+						{
+							hasonlitasMap.put(word, hasonlitasMap.get(word) + 1);
+						}
+					}
+				}
+			}
+			
+			String temp = "";
+			int max = 0;
+			int counter = 1;
+			for(String key : hasonlitasMap.keySet())
+			{
+				if(hasonlitasMap.size()==1)
+				{
+					result.setGoodWords(result.getGoodWords() + 1);
+					temp = key + " ";
 					break;
 				}
 				if(first)
 				{
-					badWord++;
+					result.setBadWords(result.getBadWords() + 1);
 					first=false;
 				}
-				if(max < hasonlitas.get(key)){
-					max = hasonlitas.get(key);
-					word= key + " ";
+				if(max < hasonlitasMap.get(key))
+				{
+					max=hasonlitasMap.get(key);
+					temp = key + " ";
 					continue;
 				}
-				if(max == hasonlitas.get(key))
+				if(max == hasonlitasMap.get(key))
 				{
-					word = "_____ ";
+					temp = "_____ ";
 				}
 			}
-			if(word.equals("_____ "))
+			if(temp.equals("_____ "))
 			{
-				String temp = words.stream().collect(Collectors.joining(", ", "", ""));
-				possibleValuesList.add(new PossibleValues("", counter, temp));
+				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));
+				possibleValuesList.add(new PossibleValues("", counter, possibilities));
 				counter++;
 			}
-			ocrText.append(word);
+			ocrResult.append(temp);
 		}
-		result.setGoodWords(goodWord);
-		result.setBadWords(badWord);
-		result.setResultPercentage((double) goodWord/(goodWord+badWord)*100);
-		result.setNumberOfWords(needToCompare.values().size());
-		result.setAverageWordCount((double) result.getNumberOfWords()/result.getNumberOfSentence());
-		
-		result.setPossibleValues(possibleValuesList);
-		OcrDocument document = new OcrDocument(
-			"",
-			"txt",
-			ocrText.toString()
-		);
-		result.setOcrResultFile(document);
-		return result;
+		List<PossibleValues> tempList = result.getPossibleValues();
+		tempList.addAll(possibleValuesList);
+		result.setPossibleValues(tempList);
+		return ocrResult.toString();
 	}
 	
-	public OcrResult ocrResultGenerate(List<String> listOfOcrResults) throws UnsupportedEncodingException
+	public OcrResult ocrResultGenerate(List<String> listOfOcrResults)
 	{
+		StringBuilder ocrResult = new StringBuilder();
 		OcrResult result = new OcrResult();
-		Map<Integer, List<String>> szovegek = new HashMap<>();
-		result.setProjectName("");
+		OcrDocument ocrDocument = new OcrDocument();
+		result.setGoodWords(0);
+		result.setBadWords(0);
+		List<Map<Integer, String>> szoveg = new ArrayList<>();
 		int counter = 1;
 		for(String ocrElem : listOfOcrResults)
 		{
+			Map<Integer, String> mondat = new HashMap<>();
 			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
 			bi.setText(ocrElem);
-			List<String> sentences = new ArrayList<>();
 			
 			int start = 0;
 			int end = 0;
-			while((end = bi.next()) != BreakIterator.DONE)
+			while ((end = bi.next()) != BreakIterator.DONE)
 			{
-				sentences.add(ocrElem.substring(start, end));
+				mondat.put(counter, ocrElem.substring(start, end));
+				counter++;
 				start = end;
 			}
-			List<String> szavak = new ArrayList<>(List.of(ocrElem.split("[ \n\t]")));
-			result.setNumberOfSentence(sentences.size());
-			szovegek.put(counter, szavak);
-			counter++;
+			counter=1;
+			szoveg.add(mondat);
 		}
 		
-		Map<Integer, List<String>> osszehasonlitoMap = new HashMap<>();
-		List<String> szoLehetosegek;
-		int szoindex = 0;
-		
-		for(int i = 0; i< szovegek.get(1).size(); i++)
+		int most_sentences = 0;
+		for(Map<Integer, String> x : szoveg)
 		{
-			szoLehetosegek = new ArrayList<>();
-			for(int j = 1; j<= szovegek.size(); j++)
-			{
-				szoLehetosegek.add(szovegek.get(j).get(i));
-			}
-			osszehasonlitoMap.put(szoindex, szoLehetosegek);
-			szoindex++;
+			if(most_sentences < x.size())
+				most_sentences = x.size();
 		}
 		
-		result = compareWords(osszehasonlitoMap, result);
+		for(int i = 1; i<=most_sentences; i++)
+		{
+			List<String> osszehasonlitas = new ArrayList<>();
+			for (int j = 0; j < szoveg.size(); j++){
+				if(szoveg.get(j) != null){
+					osszehasonlitas.add(szoveg.get(j).get(i));
+				}
+			}
+			ocrResult.append(comparingSentences(result, osszehasonlitas));
+		}
+		result.setResultPercentage((double) result.getGoodWords()/result.getNumberOfWords()*100);
+		ocrDocument.setText(ocrResult.toString());
+		result.setOcrResultFile(ocrDocument);
 		return result;
 	}
 	
