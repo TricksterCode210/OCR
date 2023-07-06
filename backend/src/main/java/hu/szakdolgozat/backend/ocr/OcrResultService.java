@@ -233,6 +233,7 @@ public class OcrResultService
 				entity.getOcrResultFile().getType(),
 				entity.getOcrResultFile().getText()
 			);
+			possibleValuesRepository.saveAll(entity.getPossibleValues());
 			int sentenceCounter = 0;
 			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
 			bi.setText(entity.getOcrResultFile().getText());
@@ -253,7 +254,8 @@ public class OcrResultService
 				entity.getGoodWords(),
 				entity.getBadWords(),
 				entity.getResultPercentage(),
-				ocrDocument
+				ocrDocument,
+				entity.getPossibleValues()
 			);
 			ocrResultRepository.save(ocrResult);
 			return true;
