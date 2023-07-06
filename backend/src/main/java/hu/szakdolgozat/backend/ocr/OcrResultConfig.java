@@ -20,8 +20,10 @@ public class OcrResultConfig
 	@Bean("ocrResult")
 	CommandLineRunner commandLineRunner(
 		OcrResultRepository repository
-	){
-		return args -> {
+	)
+	{
+		return args ->
+		{
 			OcrDocument document = new OcrDocument(
 				"teszt",
 				"txt",
@@ -48,7 +50,7 @@ public class OcrResultConfig
 				1,
 				97.1234,
 				document
-				
+			
 			);
 			
 			repository.saveAll(List.of(ocrResult, ocrResult2));

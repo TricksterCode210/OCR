@@ -74,16 +74,17 @@ public class OcrResultService
 			.min().orElse(Integer.MAX_VALUE);
 	}
 	
-	public String comparingSentences(OcrResult result, List<String> needToCompare){
+	public String comparingSentences(OcrResult result, List<String> needToCompare)
+	{
 		StringBuilder ocrResult = new StringBuilder();
 		List<List<String>> splittedSentences = new ArrayList<>();
 		List<PossibleValues> possibleValuesList = new ArrayList<>();
 		
 		int longestSentence = 0;
-		for(int i = 0; i<needToCompare.size(); i++)
+		for (int i = 0; i < needToCompare.size(); i++)
 		{
 			splittedSentences.add(List.of(needToCompare.get(i).split("[ \t]")));
-			if(longestSentence < needToCompare.get(i).split("[ \t]").length)
+			if (longestSentence < needToCompare.get(i).split("[ \t]").length)
 			{
 				longestSentence = i;
 			}
@@ -132,31 +133,31 @@ public class OcrResultService
 			String temp = "";
 			int max = 0;
 			int counter = 1;
-			for(String key : hasonlitasMap.keySet())
+			for (String key : hasonlitasMap.keySet())
 			{
-				if(hasonlitasMap.size()==1)
+				if (hasonlitasMap.size() == 1)
 				{
 					result.setGoodWords(result.getGoodWords() + 1);
 					temp = key + " ";
 					break;
 				}
-				if(first)
+				if (first)
 				{
 					result.setBadWords(result.getBadWords() + 1);
-					first=false;
+					first = false;
 				}
-				if(max < hasonlitasMap.get(key))
+				if (max < hasonlitasMap.get(key))
 				{
-					max=hasonlitasMap.get(key);
+					max = hasonlitasMap.get(key);
 					temp = key + " ";
 					continue;
 				}
-				if(max == hasonlitasMap.get(key))
+				if (max == hasonlitasMap.get(key))
 				{
 					temp = "_____ ";
 				}
 			}
-			if(temp.equals("_____ "))
+			if (temp.equals("_____ "))
 			{
 				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));
 				possibleValuesList.add(new PossibleValues("", counter, possibilities));
@@ -179,7 +180,7 @@ public class OcrResultService
 		result.setBadWords(0);
 		List<Map<Integer, String>> szoveg = new ArrayList<>();
 		int counter = 1;
-		for(String ocrElem : listOfOcrResults)
+		for (String ocrElem : listOfOcrResults)
 		{
 			Map<Integer, String> mondat = new HashMap<>();
 			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
@@ -193,22 +194,26 @@ public class OcrResultService
 				counter++;
 				start = end;
 			}
-			counter=1;
+			counter = 1;
 			szoveg.add(mondat);
 		}
 		
 		int most_sentences = 0;
-		for(Map<Integer, String> x : szoveg)
+		for (Map<Integer, String> x : szoveg)
 		{
-			if(most_sentences < x.size())
+			if (most_sentences < x.size())
+			{
 				most_sentences = x.size();
+			}
 		}
 		
-		for(int i = 1; i<=most_sentences; i++)
+		for (int i = 1; i <= most_sentences; i++)
 		{
 			List<String> osszehasonlitas = new ArrayList<>();
-			for (int j = 0; j < szoveg.size(); j++){
-				if(szoveg.get(j) != null){
+			for (int j = 0; j < szoveg.size(); j++)
+			{
+				if (szoveg.get(j) != null)
+				{
 					osszehasonlitas.add(szoveg.get(j).get(i));
 				}
 			}
@@ -235,8 +240,8 @@ public class OcrResultService
 		}
 		entity.setNumberOfSentence(sentenceCounter);
 		entity.setNumberOfWords(entity.getOcrResultFile().getText().split(" ").length);
-		entity.setAverageWordCount((double) entity.getNumberOfWords()/entity.getNumberOfSentence());
-		entity.setResultPercentage((double) entity.getGoodWords()/entity.getNumberOfWords()*100);
+		entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
+		entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
 		ocrDocumentRepository.save(ocrDocument);
 		OcrResult ocrResult = new OcrResult(
 			entity.getProjectName(),
@@ -254,10 +259,10 @@ public class OcrResultService
 	public void deleteResult(Long id)
 	{
 		boolean exists = ocrResultRepository.existsById(id);
-		if(!exists){
+		if (!exists)
+		{
 			throw new IllegalStateException("Nem létezik");
 		}
 		ocrResultRepository.deleteById(id);
 	}
-	
 }

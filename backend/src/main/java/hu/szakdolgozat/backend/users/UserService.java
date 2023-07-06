@@ -15,14 +15,18 @@ public class UserService
 		this.userRepository = userRepository;
 	}
 	
-	public boolean bejelentkezes(UserInfo u1){
+	public boolean bejelentkezes(UserInfo u1)
+	{
 		List<UserInfo> userInfos = userRepository.findAll();
-		for(UserInfo userInfo : userInfos){
-			if(
+		for (UserInfo userInfo : userInfos)
+		{
+			if (
 				userInfo.getEmail().equals(u1.getEmail()) &&
 					userInfo.getPassword().equals(u1.getPassword())
 			)
+			{
 				return true;
+			}
 		}
 		return false;
 	}
@@ -30,9 +34,12 @@ public class UserService
 	public boolean regisztracio(UserInfo u1)
 	{
 		List<UserInfo> userInfos = userRepository.findAll();
-		for(UserInfo userInfo : userInfos){
-			if(userInfo.getEmail().equals(u1.getEmail()))
+		for (UserInfo userInfo : userInfos)
+		{
+			if (userInfo.getEmail().equals(u1.getEmail()))
+			{
 				return false;
+			}
 		}
 		userRepository.save(u1);
 		return true;

@@ -30,18 +30,17 @@ const InputFields = ({
 	}
 
 	function handleTextChange(e) {
-		e.preventDefault();
-		if(!e.target.files[0])
-		{
+		e.preventDefault()
+		if (!e.target.files[0]) {
 			return
 		}
-		const reader = new FileReader();
+		const reader = new FileReader()
 		reader.onload = (e) => {
-			const text = e.target.result;
+			const text = e.target.result
 			setOcr(text)
 			setImageData(null)
-		};
-		reader.readAsText(e.target.files[0]);
+		}
+		reader.readAsText(e.target.files[0])
 	}
 
 	const deleteResults = () => {

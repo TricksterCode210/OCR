@@ -1,13 +1,7 @@
 package hu.szakdolgozat.backend.ocr;
 
-import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import java.io.UnsupportedEncodingException;
-import java.text.BreakIterator;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +25,8 @@ public class OcrResultController
 	}
 	
 	@GetMapping(path = "/results")
-	public List<OcrResult> getOcrResults(){
+	public List<OcrResult> getOcrResults()
+	{
 		return ocrResultService.getOcrResults();
 	}
 	
@@ -42,7 +37,8 @@ public class OcrResultController
 	}
 	
 	@PutMapping(path = "/homePage/save")
-	public void save(@RequestBody OcrResult ocrResult){
+	public void save(@RequestBody OcrResult ocrResult)
+	{
 		ocrResultService.save(ocrResult);
 	}
 	

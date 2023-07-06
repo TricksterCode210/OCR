@@ -155,11 +155,11 @@ const HomePage = () => {
 							<div>
 								<div className={'result-block'}>
 									{(ocrData.possibleValues?.length > 0 && !finish) ?
-									<ChooseWord
-										setOcrResult={setOcrData}
-										ocrResult={ocrData}
-										setFinish={setFinish}
-									/> : <></>
+										<ChooseWord
+											setOcrResult={setOcrData}
+											ocrResult={ocrData}
+											setFinish={setFinish}
+										/> : <></>
 									}
 								</div>
 								<div className={'result-block'}>
@@ -192,7 +192,7 @@ const HomePage = () => {
 														onBlur={handleBlur}
 													/>
 													<button disabled={values.projectName === '' || values.ocrResultFile?.name === ''} className={'register-btn'} type="submit">Mentés</button>
-													<Button className={"mb-3"} label={'Eldobás'} onClick={deleteResult}/>
+													<Button className={'mb-3'} label={'Eldobás'} onClick={deleteResult}/>
 												</VStack>
 											</Form>
 										)}

@@ -19,11 +19,12 @@ public class UserController
 	}
 	
 	@PostMapping(path = "/")
-	public boolean login(@RequestBody UserInfo userInfo1){
+	public boolean login(@RequestBody UserInfo userInfo1)
+	{
 		return userService.bejelentkezes(userInfo1);
 	}
 	
-	@PostMapping(path="/register")
+	@PostMapping(path = "/register")
 	public boolean register(@RequestBody UserInfo userInfo1)
 	{
 		return userService.regisztracio(userInfo1);

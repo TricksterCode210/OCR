@@ -13,7 +13,7 @@ public class UserInfo
 {
 	@Id
 	@SequenceGenerator(
-		name="users_sequence",
+		name = "users_sequence",
 		sequenceName = "users_sequence",
 		allocationSize = 1
 	)

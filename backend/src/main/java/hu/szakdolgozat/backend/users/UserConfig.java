@@ -10,14 +10,16 @@ public class UserConfig
 	@Bean("users")
 	CommandLineRunner commandLineRunner(
 		UserRepository repository
-	){
-		return args -> {
+	)
+	{
+		return args ->
+		{
 			UserInfo u1 = new UserInfo(
 				"Dinnyés Dávid",
 				"dinnyesd@scriptum.hu",
 				"TesztPass12"
 			);
-
+			
 			repository.save(u1);
 		};
 	}

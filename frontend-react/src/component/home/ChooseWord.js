@@ -26,7 +26,7 @@ const ChooseWord = ({
 	}
 
 	const setWords = () => {
-		if(ocrResult.possibleValues.length > 0) {
+		if (ocrResult.possibleValues.length > 0) {
 			setWord1(ocrResult.possibleValues[0].possibleWords.split(', ')[0])
 			setWord2(ocrResult.possibleValues[0].possibleWords.split(', ')[1])
 			setWord3(ocrResult.possibleValues[0].possibleWords.split(', ')[2])

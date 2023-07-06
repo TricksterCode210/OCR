@@ -20,7 +20,6 @@ public class OcrDocument
 	@Column(length = 2000)
 	private String text;
 	
-	
 	public OcrDocument(String name, String type, String text)
 	{
 		this.name = name;

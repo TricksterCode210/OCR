@@ -20,7 +20,7 @@ public class OcrResult
 {
 	@Id
 	@SequenceGenerator(
-		name="ocr_sequence",
+		name = "ocr_sequence",
 		sequenceName = "ocr_sequence",
 		allocationSize = 1
 	)
@@ -87,7 +87,8 @@ public class OcrResult
 		this.possibleValueDtos = possibleValueDtos;
 	}
 	
-	public OcrResult() {
+	public OcrResult()
+	{
 		this.possibleValueDtos = new ArrayList<>();
 	}
 	

@@ -6,26 +6,25 @@ import {Link, useNavigate} from 'react-router-dom'
 
 const LoginPage = () => {
 	const [loggedIn, setLoggedIn] = useState(true)
-	const navigator = useNavigate();
+	const navigator = useNavigate()
 
 	const getIsValidForm = ({email, password}) => {
 		return email && password.length >= 8
 	}
 
 	const handleSubmit = ({email, password}) => {
-		const felhasznalo={email, password}
-		fetch("http://localhost:8080/",
+		const felhasznalo = {email, password}
+		fetch('http://localhost:8080/',
 			{
-				method:"POST",
-				headers:{"Content-Type":"application/json"},
-				body:JSON.stringify(felhasznalo)
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(felhasznalo)
 			})
 			.then(res => res.json())
-			.then((result) =>{
-				if(result === true){
-					navigator("/homePage")
-				}
-				else {
+			.then((result) => {
+				if (result === true) {
+					navigator('/homePage')
+				} else {
 					setLoggedIn(false)
 				}
 			})
@@ -36,7 +35,7 @@ const LoginPage = () => {
 			<h1>Bejelentkezés</h1>
 			<Formik
 				enableReinitialize
-				initialValues={{email:'', password:''}}
+				initialValues={{email: '', password: ''}}
 				onSubmit={(data) => {
 					handleSubmit(data)
 				}}
@@ -46,25 +45,25 @@ const LoginPage = () => {
 						<VStack>
 							<Text className={'error-message'} hidden={loggedIn}>Sikertelen bejelentkezés! <br/>Hibás email vagy jelszó</Text>
 							<CustomInput
-								label={"Email: "}
-								placeholder={"peldabela@gmail.com"}
-								type={"email"}
-								name={"email"}
+								label={'Email: '}
+								placeholder={'peldabela@gmail.com'}
+								type={'email'}
+								name={'email'}
 								value={values.email}
 								onChange={handleChange}
 								onBlur={handleBlur}
 							/>
 							<CustomInput
-								label={"Jelszó: "}
-								placeholder={"Jelszó"}
-								type={"password"}
-								name={"password"}
+								label={'Jelszó: '}
+								placeholder={'Jelszó'}
+								type={'password'}
+								name={'password'}
 								value={values.password}
 								onChange={handleChange}
 								onBlur={handleBlur}
 							/>
-							<button disabled={!getIsValidForm(values)} className={"login-btn"} type="submit">Bejelentkezés</button>
-							<Link to={"/register"} className={"form-link"}>Itt tud regisztrálni</Link>
+							<button disabled={!getIsValidForm(values)} className={'login-btn'} type="submit">Bejelentkezés</button>
+							<Link to={'/register'} className={'form-link'}>Itt tud regisztrálni</Link>
 						</VStack>
 					</Form>
 				)}
