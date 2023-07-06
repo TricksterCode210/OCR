@@ -4,7 +4,6 @@ import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValuesRepository;
-import java.io.UnsupportedEncodingException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -215,7 +214,7 @@ public class OcrResultService
 			}
 			ocrResult.append(comparingSentences(result, osszehasonlitas));
 		}
-		ocrDocument.setText(ocrResult.toString());
+		ocrDocument.setText(ocrResult.toString().replace("\n ", "\n"));
 		result.setOcrResultFile(ocrDocument);
 		return result;
 	}

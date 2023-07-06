@@ -152,51 +152,52 @@ const HomePage = () => {
 					</div>
 					{
 						(ocrData) ?
-							<div className={'result-block'}>
-								{(ocrData.possibleValues?.length > 0 && !finish ?
-										<ChooseWord
-											possibleValues={ocrData.possibleValues}
-											setOcrResult={setOcrData}
-											ocrResult={ocrData}
-											size={ocrData.possibleValues?.length}
-											setFinish={setFinish}
-										/>
-										:
-										<Formik
-											enableReinitialize
-											initialValues={ocrData}
-											onSubmit={(data) => {
-												handleSubmit(data)
-											}}
-										>
-											{({values, handleChange, handleBlur, handleSubmit}) => (
-												<Form>
-													<VStack>
-														<CustomInput
-															className={'m-1'}
-															label={'Projekt név: '}
-															type={'text'}
-															name={'projectName'}
-															value={values.projectName}
-															onChange={handleChange}
-															onBlur={handleBlur}
-														/>
-														<CustomInput
-															className={'m-1'}
-															label={'Fájl neve: '}
-															type={'text'}
-															name={'ocrResultFile.name'}
-															value={values.ocrResultFile?.name}
-															onChange={handleChange}
-															onBlur={handleBlur}
-														/>
-														<button disabled={values.projectName === '' || values.ocrResultFile?.name === ''} className={'register-btn'} type="submit">Mentés</button>
-														<Button label={'Eldobás'} onClick={deleteResult}/>
-													</VStack>
-												</Form>
-											)}
-										</Formik>
-								)}
+							<div>
+								<div className={'result-block'}>
+									{(ocrData.possibleValues?.length > 0 && !finish) ?
+									<ChooseWord
+										setOcrResult={setOcrData}
+										ocrResult={ocrData}
+										setFinish={setFinish}
+									/> : <></>
+									}
+								</div>
+								<div className={'result-block'}>
+									<Formik
+										enableReinitialize
+										initialValues={ocrData}
+										onSubmit={(data) => {
+											handleSubmit(data)
+										}}
+									>
+										{({values, handleChange, handleBlur, handleSubmit}) => (
+											<Form>
+												<VStack>
+													<CustomInput
+														className={'m-1'}
+														label={'Projekt név: '}
+														type={'text'}
+														name={'projectName'}
+														value={values.projectName}
+														onChange={handleChange}
+														onBlur={handleBlur}
+													/>
+													<CustomInput
+														className={'m-1'}
+														label={'Fájl neve: '}
+														type={'text'}
+														name={'ocrResultFile.name'}
+														value={values.ocrResultFile?.name}
+														onChange={handleChange}
+														onBlur={handleBlur}
+													/>
+													<button disabled={values.projectName === '' || values.ocrResultFile?.name === ''} className={'register-btn'} type="submit">Mentés</button>
+													<Button className={"mb-3"} label={'Eldobás'} onClick={deleteResult}/>
+												</VStack>
+											</Form>
+										)}
+									</Formik>
+								</div>
 							</div>
 							: <></>
 					}
