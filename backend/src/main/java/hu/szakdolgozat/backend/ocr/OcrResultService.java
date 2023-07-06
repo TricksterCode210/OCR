@@ -91,9 +91,9 @@ public class OcrResultService
 		}
 		int x = 0;
 		String word = "";
-		boolean first = true;
 		for (int wordIndex = 0; wordIndex < splittedSentences.get(longestSentence).size(); wordIndex++)
 		{
+			boolean first = true;
 			Map<String, Integer> hasonlitasMap = new HashMap<>();
 			for (int i = 0; i < splittedSentences.size(); i++)
 			{
@@ -215,7 +215,6 @@ public class OcrResultService
 			}
 			ocrResult.append(comparingSentences(result, osszehasonlitas));
 		}
-		result.setResultPercentage((double) result.getGoodWords()/result.getNumberOfWords()*100);
 		ocrDocument.setText(ocrResult.toString());
 		result.setOcrResultFile(ocrDocument);
 		return result;
@@ -228,6 +227,17 @@ public class OcrResultService
 			entity.getOcrResultFile().getType(),
 			entity.getOcrResultFile().getText()
 		);
+		int sentenceCounter = 0;
+		BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
+		bi.setText(entity.getOcrResultFile().getText());
+		while (bi.next() != BreakIterator.DONE)
+		{
+			sentenceCounter++;
+		}
+		entity.setNumberOfSentence(sentenceCounter);
+		entity.setNumberOfWords(entity.getOcrResultFile().getText().split(" ").length);
+		entity.setAverageWordCount((double) entity.getNumberOfWords()/entity.getNumberOfSentence());
+		entity.setResultPercentage((double) entity.getGoodWords()/entity.getNumberOfWords()*100);
 		ocrDocumentRepository.save(ocrDocument);
 		OcrResult ocrResult = new OcrResult(
 			entity.getProjectName(),

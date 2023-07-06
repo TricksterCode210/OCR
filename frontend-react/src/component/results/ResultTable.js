@@ -23,6 +23,13 @@ const ResultTable = (rowData) => {
 		return <Button label={'Törlés'} severity={'danger'} className={'me-3'} onClick={() => deleteResult(rowData.id)}/>
 	}
 
+	const averageWordCountTemplate = (rowData) => {
+		return <>{rowData.averageWordCount.toFixed(4)}</>
+	}
+
+	const resultPercentageTemplate = (rowData) => {
+		return <>{rowData.resultPercentage.toFixed(4)} %</>
+	}
 
 	useEffect(() => {
 		fetch("http://localhost:8080/results")
@@ -38,10 +45,10 @@ const ResultTable = (rowData) => {
 			<Column field={'projectName'} header={"Projekt név"}/>
 			<Column field={'numberOfSentence'} header={"Mondatok száma"}/>
 			<Column field={'numberOfWords'} header={"Szavak száma"}/>
-			<Column field={'averageWordCount'} header={"Szavak mondatonként"}/>
+			<Column field={'averageWordCount'} header={"Szavak mondatonként"} body={averageWordCountTemplate}/>
 			<Column field={'goodWords'} header={"Helyesen olvasott szavak száma"}/>
 			<Column field={'badWords'} header={"Helytelenül olvasott szavak száma"}/>
-			<Column field={'resultPercentage'} header={"Helyességi arány"}/>
+			<Column field={'resultPercentage'} header={"Helyességi arány"} body={resultPercentageTemplate}/>
 			<Column field={'ocrResult'} header={"OCR eredmény"} body={(rowData) => downloadFile(rowData)}/>
 		</DataTable>
 	</>
