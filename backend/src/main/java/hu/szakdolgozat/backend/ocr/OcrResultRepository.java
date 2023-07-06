@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OcrResultRepository extends JpaRepository<OcrResult, Long>
 {
+	OcrResult getOcrResultByProjectName(String projectName);
+	
 	List<OcrResult> findAll();
 }

@@ -224,36 +224,41 @@ public class OcrResultService
 		return result;
 	}
 	
-	public void save(OcrResult entity)
+	public boolean save(OcrResult entity)
 	{
-		OcrDocument ocrDocument = new OcrDocument(
-			entity.getOcrResultFile().getName().toLowerCase().replace(" ", "_"),
-			entity.getOcrResultFile().getType(),
-			entity.getOcrResultFile().getText()
-		);
-		int sentenceCounter = 0;
-		BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
-		bi.setText(entity.getOcrResultFile().getText());
-		while (bi.next() != BreakIterator.DONE)
+		if(ocrResultRepository.getOcrResultByProjectName(entity.getProjectName()) == null)
 		{
-			sentenceCounter++;
+			OcrDocument ocrDocument = new OcrDocument(
+				entity.getOcrResultFile().getName().toLowerCase().replace(" ", "_"),
+				entity.getOcrResultFile().getType(),
+				entity.getOcrResultFile().getText()
+			);
+			int sentenceCounter = 0;
+			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
+			bi.setText(entity.getOcrResultFile().getText());
+			while (bi.next() != BreakIterator.DONE)
+			{
+				sentenceCounter++;
+			}
+			entity.setNumberOfSentence(sentenceCounter);
+			entity.setNumberOfWords(entity.getOcrResultFile().getText().split(" ").length);
+			entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
+			entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
+			ocrDocumentRepository.save(ocrDocument);
+			OcrResult ocrResult = new OcrResult(
+				entity.getProjectName(),
+				entity.getNumberOfSentence(),
+				entity.getNumberOfWords(),
+				entity.getAverageWordCount(),
+				entity.getGoodWords(),
+				entity.getBadWords(),
+				entity.getResultPercentage(),
+				ocrDocument
+			);
+			ocrResultRepository.save(ocrResult);
+			return true;
 		}
-		entity.setNumberOfSentence(sentenceCounter);
-		entity.setNumberOfWords(entity.getOcrResultFile().getText().split(" ").length);
-		entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
-		entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
-		ocrDocumentRepository.save(ocrDocument);
-		OcrResult ocrResult = new OcrResult(
-			entity.getProjectName(),
-			entity.getNumberOfSentence(),
-			entity.getNumberOfWords(),
-			entity.getAverageWordCount(),
-			entity.getGoodWords(),
-			entity.getBadWords(),
-			entity.getResultPercentage(),
-			ocrDocument
-		);
-		ocrResultRepository.save(ocrResult);
+		return false;
 	}
 	
 	public void deleteResult(Long id)

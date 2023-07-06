@@ -27,6 +27,8 @@ const HomePage = () => {
 
 	const [selectedLanguage, setSelectedLanguage] = useState()
 
+	const [errorMessage, setErrorMessage] = useState()
+
 	const languages = [
 		{name: 'Magyar', code: 'hun'},
 		{name: 'Angol', code: 'eng'},
@@ -61,22 +63,29 @@ const HomePage = () => {
 			})
 	}
 
-	const handleSubmit = async (ocrData) => {
-		await fetch('http://localhost:8080/homePage/save', {
-			method: 'PUT',
+	const handleSubmit = (ocrData) => {
+		fetch('http://localhost:8080/homePage/save', {
+			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(ocrData)
-		}).then(() => {
-			setOcrData(null)
-			setOcr1('')
-			setOcr2('')
-			setOcr3('')
-			setOcr4('')
-			setImageData1()
-			setImageData2()
-			setImageData3()
-			setImageData4()
 		})
+			.then(res => res.json())
+			.then((result) => {
+				console.log(result)
+				if (result === true) {
+					setOcrData(null)
+					setOcr1('')
+					setOcr2('')
+					setOcr3('')
+					setOcr4('')
+					setImageData1()
+					setImageData2()
+					setImageData3()
+					setImageData4()
+				} else {
+					setErrorMessage('Ez a név már foglalt')
+				}
+			})
 	}
 
 	const deleteResult = () => {
@@ -173,6 +182,7 @@ const HomePage = () => {
 										{({values, handleChange, handleBlur, handleSubmit}) => (
 											<Form>
 												<VStack>
+													{errorMessage ? <>{errorMessage}</> : <></>}
 													<CustomInput
 														className={'m-1'}
 														label={'Projekt név: '}

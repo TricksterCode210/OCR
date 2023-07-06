@@ -36,10 +36,10 @@ public class OcrResultController
 		return ocrResultService.ocrResultGenerate(listOfOcrResults);
 	}
 	
-	@PutMapping(path = "/homePage/save")
-	public void save(@RequestBody OcrResult ocrResult)
+	@PostMapping(path = "/homePage/save")
+	public boolean save(@RequestBody OcrResult ocrResult)
 	{
-		ocrResultService.save(ocrResult);
+		return ocrResultService.save(ocrResult);
 	}
 	
 	@DeleteMapping(path = "/results/{resultId}")
