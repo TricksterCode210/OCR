@@ -4,6 +4,7 @@ import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,7 +42,10 @@ public class OcrResult
 	private OcrDocument ocrResultFile;
 	
 	@OneToMany
-	@JoinColumn(name = "possible_values")
+	@CollectionTable(
+		name = "possible_values_table",
+		joinColumns = @JoinColumn(name = "ocr_id")
+	)
 	private List<PossibleValues> possibleValueDtos;
 	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
@@ -201,7 +205,11 @@ public class OcrResult
 			", numberOfSentence=" + numberOfSentence +
 			", numberOfWords=" + numberOfWords +
 			", averageWordCount=" + averageWordCount +
-			", ocrResult=" + ocrResultFile +
+			", goodWords=" + goodWords +
+			", badWords=" + badWords +
+			", resultPercentage=" + resultPercentage +
+			", ocrResultFile=" + ocrResultFile.toString() +
+			", possibleValueDtos=" + possibleValueDtos +
 			'}';
 	}
 }

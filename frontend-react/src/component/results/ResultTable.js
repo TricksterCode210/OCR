@@ -2,6 +2,8 @@ import {DataTable} from 'primereact/datatable'
 import {Column} from 'primereact/column'
 import {useEffect, useState} from 'react'
 import {Button} from 'primereact/button'
+import {Link, Route, Routes} from 'react-router-dom'
+import FinishResult from './FinishResult'
 
 const ResultTable = (rowData) => {
 	const [results, setResults] = useState()
@@ -19,8 +21,25 @@ const ResultTable = (rowData) => {
 		})
 	}
 
+	// const finishOcr = () => {
+	//
+	// }
+
 	const buttonGroup = (rowData) => {
-		return <Button label={'Törlés'} severity={'danger'} className={'me-3'} onClick={() => deleteResult(rowData.id)}/>
+		return <div className={"row me-3"}>
+			<div className={rowData.possibleValues.length > 0 ? "col-6" : "col-12"}>
+			<Button label={'Törlés'} severity={'danger'} onClick={() => deleteResult(rowData.id)}/>
+			</div>
+			{rowData.possibleValues.length > 0 ?
+				<div className={"col-6"}>
+					<Link to={`${rowData.id}`}><Button label={'Befejezés'} severity={'info'}/></Link>
+				</div>:
+				<></>
+			}
+			<Routes>
+				<Route path={`/results/:id`} element={<FinishResult data={rowData}/>}/>
+			</Routes>
+		</div>
 	}
 
 	const averageWordCountTemplate = (rowData) => {
@@ -35,6 +54,7 @@ const ResultTable = (rowData) => {
 		fetch('http://localhost:8080/results')
 			.then(res => res.json())
 			.then(res => {
+				res.map(x => console.log(x))
 				setResults(res)
 			})
 	}, [])
