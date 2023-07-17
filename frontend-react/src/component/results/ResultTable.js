@@ -20,10 +20,6 @@ const ResultTable = (rowData) => {
 		})
 	}
 
-	// const finishOcr = () => {
-	//
-	// }
-
 	const buttonGroup = (rowData) => {
 		return <div className={"row me-3"}>
 			<div className={rowData.possibleValues.length > 0 ? "col-6" : "col-12"}>
@@ -50,7 +46,6 @@ const ResultTable = (rowData) => {
 		fetch('http://localhost:8080/results')
 			.then(res => res.json())
 			.then(res => {
-				res.map(x => console.log(x))
 				setResults(res)
 			})
 	}, [])

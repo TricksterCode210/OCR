@@ -263,6 +263,15 @@ public class OcrResultService
 		return false;
 	}
 	
+	public boolean edit(OcrResult ocrResult)
+	{
+		OcrResult oldVersion = ocrResultRepository.getOcrResultByProjectName(ocrResult.getProjectName());
+		oldVersion.setOcrResultFile(ocrResult.getOcrResultFile());
+		ocrResultRepository.deleteById(oldVersion.getId());
+		ocrResultRepository.save(oldVersion);
+		return true;
+	}
+	
 	public void deleteResult(Long id)
 	{
 		boolean exists = ocrResultRepository.existsById(id);

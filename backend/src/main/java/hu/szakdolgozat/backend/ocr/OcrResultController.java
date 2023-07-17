@@ -42,6 +42,9 @@ public class OcrResultController
 		return ocrResultService.save(ocrResult);
 	}
 	
+	@PostMapping(path = "/results/edit")
+	public boolean edit(@RequestBody OcrResult ocrResult) {return ocrResultService.edit(ocrResult);}
+	
 	@DeleteMapping(path = "/results/{resultId}")
 	public void deleteResult(@PathVariable("resultId") Long id)
 	{

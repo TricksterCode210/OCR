@@ -57,7 +57,6 @@ const HomePage = () => {
 			body: JSON.stringify(list)
 		}).then(result => result.json())
 			.then((result) => {
-				console.log(result)
 				setOcrData(result)
 				setFinish(false)
 			})
@@ -71,7 +70,6 @@ const HomePage = () => {
 		})
 			.then(res => res.json())
 			.then((result) => {
-				console.log(result)
 				if (result === true) {
 					setOcrData(null)
 					setOcr1('')
