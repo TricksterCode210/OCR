@@ -1,5 +1,5 @@
 import './App.css'
-import {Link, Route, Routes} from 'react-router-dom'
+import {Link, Route, Routes, useResolvedPath} from 'react-router-dom'
 import Information from './component/info/Information'
 import React from 'react'
 import HomePage from './component/home/HomePage'
@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ResultTable from './component/results/ResultTable'
 import LoginPage from './component/login/LoginPage'
 import RegisterPage from './component/register/RegisterPage'
+import FinishResult from './component/results/FinishResult'
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 					<Route path={'/register'} element={<RegisterPage/>}/>
 					<Route path={'/homePage'} element={<HomePage/>}/>
 					<Route path={'/results'} element={<ResultTable/>}/>
+					<Route path={'/results/:id'} element={<FinishResult/>}/>
 					<Route path={'/information'} element={<Information/>}/>
 				</Routes>
 			</main>

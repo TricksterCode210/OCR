@@ -47,4 +47,9 @@ public class OcrResultController
 	{
 		ocrResultService.deleteResult(id);
 	}
+	
+	@GetMapping(path = "/results/get/{resultId}")
+	public OcrResult getUnfinishedOcr(@PathVariable("resultId") Long id) {
+		return ocrResultService.getOcrResultById(id);
+	}
 }

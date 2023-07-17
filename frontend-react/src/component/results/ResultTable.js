@@ -2,8 +2,7 @@ import {DataTable} from 'primereact/datatable'
 import {Column} from 'primereact/column'
 import {useEffect, useState} from 'react'
 import {Button} from 'primereact/button'
-import {Link, Route, Routes} from 'react-router-dom'
-import FinishResult from './FinishResult'
+import {Link} from 'react-router-dom'
 
 const ResultTable = (rowData) => {
 	const [results, setResults] = useState()
@@ -36,9 +35,6 @@ const ResultTable = (rowData) => {
 				</div>:
 				<></>
 			}
-			<Routes>
-				<Route path={`/results/:id`} element={<FinishResult data={rowData}/>}/>
-			</Routes>
 		</div>
 	}
 

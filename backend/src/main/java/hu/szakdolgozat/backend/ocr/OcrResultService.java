@@ -272,4 +272,9 @@ public class OcrResultService
 		}
 		ocrResultRepository.deleteById(id);
 	}
+	
+	public OcrResult getOcrResultById(Long id)
+	{
+		return ocrResultRepository.getOcrResultById(id);
+	}
 }

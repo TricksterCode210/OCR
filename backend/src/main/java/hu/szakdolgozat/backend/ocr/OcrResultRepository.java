@@ -9,5 +9,7 @@ public interface OcrResultRepository extends JpaRepository<OcrResult, Long>
 {
 	OcrResult getOcrResultByProjectName(String projectName);
 	
+	OcrResult getOcrResultById(Long id);
+	
 	List<OcrResult> findAll();
 }
