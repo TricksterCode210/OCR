@@ -15,7 +15,15 @@ const FinishResult = () => {
 
 	const navigate = useNavigate()
 
-	const handleSubmit = (ocrData) => {
+	const [counter, setCounter] = useState(0)
+
+	const handleSubmit = async (ocrData) => {
+		await setOcrResult(ocrResult => ({
+			...ocrResult,
+			possibleValues:{
+				...ocrResult.possibleValues.splice(0, counter)
+			}
+		}))
 		fetch('http://localhost:8080/results/edit', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -56,6 +64,8 @@ const FinishResult = () => {
 						setOcrResult={setOcrResult}
 						ocrResult={ocrResult}
 						setFinish={setFinish}
+						counter={counter}
+						setCounter={setCounter}
 					/> : <></>
 				}
 			</div>

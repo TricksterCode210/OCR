@@ -81,12 +81,20 @@ public class OcrResultService
 		List<PossibleValues> possibleValuesList = new ArrayList<>();
 		
 		int longestSentence = 0;
+		int dif = 0;
 		for (int i = 0; i < needToCompare.size(); i++)
 		{
-			splittedSentences.add(List.of(needToCompare.get(i).split("[ \t]")));
-			if (longestSentence < needToCompare.get(i).split("[ \t]").length)
+			if(needToCompare.get(i)!= null)
 			{
-				longestSentence = i;
+				splittedSentences.add(List.of(needToCompare.get(i).split("[ \t\n]")));
+				if (longestSentence < needToCompare.get(i).split("[ \t\n]").length)
+				{
+					longestSentence = i-dif;
+				}
+			}
+			else
+			{
+				dif++;
 			}
 		}
 		int x = 0;
@@ -99,7 +107,7 @@ public class OcrResultService
 			{
 				for (int j = 0; j < splittedSentences.size(); j++)
 				{
-					if (i != j)
+					if (i != j && splittedSentences.get(i).size()>wordIndex)
 					{
 						int tav = Integer.MAX_VALUE;
 						for (int wordIndexDifference = -3; wordIndexDifference <= 3; wordIndexDifference++)
@@ -242,7 +250,7 @@ public class OcrResultService
 				sentenceCounter++;
 			}
 			entity.setNumberOfSentence(sentenceCounter);
-			entity.setNumberOfWords(entity.getOcrResultFile().getText().split(" ").length);
+			entity.setNumberOfWords(entity.getOcrResultFile().getText().split("[ \t\n]").length);
 			entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
 			entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
 			ocrDocumentRepository.save(ocrDocument);

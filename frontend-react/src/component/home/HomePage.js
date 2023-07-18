@@ -29,6 +29,8 @@ const HomePage = () => {
 
 	const [errorMessage, setErrorMessage] = useState()
 
+	const [counter, setCounter] = useState(0)
+
 	const languages = [
 		{name: 'Magyar', code: 'hun'},
 		{name: 'Angol', code: 'eng'},
@@ -57,12 +59,19 @@ const HomePage = () => {
 			body: JSON.stringify(list)
 		}).then(result => result.json())
 			.then((result) => {
+				console.log(result)
 				setOcrData(result)
 				setFinish(false)
 			})
 	}
 
-	const handleSubmit = (ocrData) => {
+	const handleSubmit = async (ocrData) => {
+		await setOcrData(ocrResult => ({
+			...ocrResult,
+			possibleValues:{
+				...ocrResult.possibleValues.splice(0, counter)
+			}
+		}))
 		fetch('http://localhost:8080/homePage/save', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -166,6 +175,8 @@ const HomePage = () => {
 											setOcrResult={setOcrData}
 											ocrResult={ocrData}
 											setFinish={setFinish}
+											counter={counter}
+											setCounter={setCounter}
 										/> : <></>
 									}
 								</div>
