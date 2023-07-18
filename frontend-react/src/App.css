@@ -42,6 +42,17 @@ textarea {
 /*  color: black;*/
 /*}*/
 
+@keyframes change-none-color {
+  0%{
+    background-color: #393d45;
+    color: #e91224;
+  }
+  100% {
+    background-color: #e91224;
+    color: white;
+  }
+}
+
 @keyframes change-color {
   0%{
     background-color: #393d45;
@@ -210,6 +221,24 @@ p.info-text {
   color: white;
   font-size: 16px;
   margin: 1rem
+}
+
+.choose-none-btn{
+  border: none;
+  background-color: #393d45;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #e91224;
+  font-size: 16px;
+  font-weigth: bold;
+  margin: 1rem
+}
+
+.choose-none-btn:hover{
+  animation: change-none-color 0.5s linear;
+  background-color: #e91224;
+  color: white;
 }
 
 .login-btn:hover:enabled, .register-btn:hover:enabled, .choose-btn:hover:enabled{

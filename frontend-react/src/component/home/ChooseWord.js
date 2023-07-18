@@ -58,7 +58,7 @@ const ChooseWord = ({
 			{word1 !== word4 && word2 !== word4 && word3 !== word4 ?
 				<button id={'number_4'} className={'choose-btn'} onClick={() => handleClick(word4)}>{word4}</button> : <></>
 			}
-			<button id={'no_match'} className={'choose-btn'} style={{color: 'red'}} onClick={() => noMatchClick()}>"Egyik sem"</button>
+			<button id={'no_match'} className={'choose-none-btn'} onClick={() => noMatchClick()}>"Egyik sem"</button>
 		</>:<></>
 		}
 	</>
