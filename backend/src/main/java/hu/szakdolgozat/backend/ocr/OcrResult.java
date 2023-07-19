@@ -42,10 +42,6 @@ public class OcrResult
 	private OcrDocument ocrResultFile;
 	
 	@OneToMany
-	@CollectionTable(
-		name = "possible_values_table",
-		joinColumns = @JoinColumn(name = "ocr_id")
-	)
 	private List<PossibleValues> possibleValueDtos;
 	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,

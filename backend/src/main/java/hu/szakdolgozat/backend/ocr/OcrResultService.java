@@ -163,13 +163,13 @@ public class OcrResultService
 				if (max == hasonlitasMap.get(key))
 				{
 					temp = "_____ ";
+					counter++;
 				}
 			}
 			if (temp.equals("_____ "))
 			{
 				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));
 				possibleValuesList.add(new PossibleValues("", counter, possibilities));
-				counter++;
 			}
 			ocrResult.append(temp);
 		}
@@ -241,7 +241,11 @@ public class OcrResultService
 				entity.getOcrResultFile().getType(),
 				entity.getOcrResultFile().getText()
 			);
-			possibleValuesRepository.saveAll(entity.getPossibleValues());
+			for(PossibleValues possibleValue : entity.getPossibleValues())
+			{
+				possibleValue.setProjectName(entity.getProjectName());
+				possibleValuesRepository.save(possibleValue);
+			}
 			int sentenceCounter = 0;
 			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
 			bi.setText(entity.getOcrResultFile().getText());
@@ -275,6 +279,7 @@ public class OcrResultService
 	{
 		OcrResult oldVersion = ocrResultRepository.getOcrResultByProjectName(ocrResult.getProjectName());
 		ocrResultRepository.deleteById(oldVersion.getId());
+		possibleValuesRepository.deleteByProjectName(ocrResult.getProjectName());
 		OcrDocument newDocument = new OcrDocument(
 			ocrResult.getOcrResultFile().getName(),
 			ocrResult.getOcrResultFile().getType(),
@@ -282,6 +287,11 @@ public class OcrResultService
 		);
 		ocrDocumentRepository.save(newDocument);
 		oldVersion.setOcrResultFile(newDocument);
+		for(PossibleValues p : oldVersion.getPossibleValues())
+		{
+			p.setProjectName(oldVersion.getProjectName());
+			possibleValuesRepository.save(p);
+		}
 		ocrResultRepository.save(oldVersion);
 		return true;
 	}
