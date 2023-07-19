@@ -34,6 +34,12 @@ public class OcrResultConfig
 				"teszt szöveg _____ "
 			);
 			ocrDocumentRepository.save(document);
+			OcrDocument document2 = new OcrDocument(
+				"teszt2",
+				"txt",
+				"teszt szöveg"
+			);
+			ocrDocumentRepository.save(document2);
 			PossibleValues possibleValues = new PossibleValues(
 				"teszt projekt",
 				"asd, asdw"
@@ -59,7 +65,7 @@ public class OcrResultConfig
 				30,
 				1,
 				97.1234,
-				document
+				document2
 			);
 			
 			repository.saveAll(List.of(ocrResult, ocrResult2));

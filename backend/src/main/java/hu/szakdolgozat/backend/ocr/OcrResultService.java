@@ -275,22 +275,10 @@ public class OcrResultService
 	
 	public boolean edit(OcrResult ocrResult)
 	{
-		OcrResult oldVersion = ocrResultRepository.getOcrResultByProjectName(ocrResult.getProjectName());
-		ocrResultRepository.deleteById(oldVersion.getId());
+		ocrResultRepository.deleteById(ocrResult.getId());
 		possibleValuesRepository.deleteByProjectName(ocrResult.getProjectName());
-		OcrDocument newDocument = new OcrDocument(
-			ocrResult.getOcrResultFile().getName(),
-			ocrResult.getOcrResultFile().getType(),
-			ocrResult.getOcrResultFile().getText()
-		);
-		ocrDocumentRepository.save(newDocument);
-		oldVersion.setOcrResultFile(newDocument);
-		for(PossibleValues p : oldVersion.getPossibleValues())
-		{
-			p.setProjectName(oldVersion.getProjectName());
-			possibleValuesRepository.save(p);
-		}
-		ocrResultRepository.save(oldVersion);
+		ocrDocumentRepository.deleteById(ocrResult.getOcrResultFile().getId());
+		save(ocrResult);
 		return true;
 	}
 	
