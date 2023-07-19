@@ -36,6 +36,12 @@ public class OcrResultController
 		return ocrResultService.ocrResultGenerate(listOfOcrResults);
 	}
 	
+	@GetMapping(path = "/homePage/{projectName}")
+	public boolean nameAlreadyInUse(@PathVariable("projectName") String projectName)
+	{
+		return ocrResultService.nameAlreadyInUse(projectName);
+	}
+	
 	@PostMapping(path = "/homePage/save")
 	public boolean save(@RequestBody OcrResult ocrResult)
 	{

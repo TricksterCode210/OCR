@@ -84,12 +84,12 @@ public class OcrResultService
 		int dif = 0;
 		for (int i = 0; i < needToCompare.size(); i++)
 		{
-			if(needToCompare.get(i)!= null)
+			if (needToCompare.get(i) != null)
 			{
 				splittedSentences.add(List.of(needToCompare.get(i).split("[ \t\n]")));
 				if (longestSentence < needToCompare.get(i).split("[ \t\n]").length)
 				{
-					longestSentence = i-dif;
+					longestSentence = i - dif;
 				}
 			}
 			else
@@ -107,7 +107,7 @@ public class OcrResultService
 			{
 				for (int j = 0; j < splittedSentences.size(); j++)
 				{
-					if (i != j && splittedSentences.get(i).size()>wordIndex)
+					if (i != j && splittedSentences.get(i).size() > wordIndex)
 					{
 						int tav = Integer.MAX_VALUE;
 						for (int wordIndexDifference = -3; wordIndexDifference <= 3; wordIndexDifference++)
@@ -230,47 +230,48 @@ public class OcrResultService
 		return result;
 	}
 	
+	public boolean nameAlreadyInUse(String projectName)
+	{
+		return ocrResultRepository.getOcrResultByProjectName(projectName) == null;
+	}
+	
 	public boolean save(OcrResult entity)
 	{
-		if(ocrResultRepository.getOcrResultByProjectName(entity.getProjectName()) == null)
+		OcrDocument ocrDocument = new OcrDocument(
+			entity.getOcrResultFile().getName().toLowerCase().replace(" ", "_"),
+			entity.getOcrResultFile().getType(),
+			entity.getOcrResultFile().getText()
+		);
+		for (PossibleValues possibleValue : entity.getPossibleValues())
 		{
-			OcrDocument ocrDocument = new OcrDocument(
-				entity.getOcrResultFile().getName().toLowerCase().replace(" ", "_"),
-				entity.getOcrResultFile().getType(),
-				entity.getOcrResultFile().getText()
-			);
-			for(PossibleValues possibleValue : entity.getPossibleValues())
-			{
-				possibleValue.setProjectName(entity.getProjectName());
-				possibleValuesRepository.save(possibleValue);
-			}
-			int sentenceCounter = 0;
-			BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
-			bi.setText(entity.getOcrResultFile().getText());
-			while (bi.next() != BreakIterator.DONE)
-			{
-				sentenceCounter++;
-			}
-			entity.setNumberOfSentence(sentenceCounter);
-			entity.setNumberOfWords(entity.getOcrResultFile().getText().split("[ \t\n]").length);
-			entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
-			entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
-			ocrDocumentRepository.save(ocrDocument);
-			OcrResult ocrResult = new OcrResult(
-				entity.getProjectName(),
-				entity.getNumberOfSentence(),
-				entity.getNumberOfWords(),
-				entity.getAverageWordCount(),
-				entity.getGoodWords(),
-				entity.getBadWords(),
-				entity.getResultPercentage(),
-				ocrDocument,
-				entity.getPossibleValues()
-			);
-			ocrResultRepository.save(ocrResult);
-			return true;
+			possibleValue.setProjectName(entity.getProjectName());
+			possibleValuesRepository.save(possibleValue);
 		}
-		return false;
+		int sentenceCounter = 0;
+		BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
+		bi.setText(entity.getOcrResultFile().getText());
+		while (bi.next() != BreakIterator.DONE)
+		{
+			sentenceCounter++;
+		}
+		entity.setNumberOfSentence(sentenceCounter);
+		entity.setNumberOfWords(entity.getOcrResultFile().getText().split("[ \t\n]").length);
+		entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
+		entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
+		ocrDocumentRepository.save(ocrDocument);
+		OcrResult ocrResult = new OcrResult(
+			entity.getProjectName(),
+			entity.getNumberOfSentence(),
+			entity.getNumberOfWords(),
+			entity.getAverageWordCount(),
+			entity.getGoodWords(),
+			entity.getBadWords(),
+			entity.getResultPercentage(),
+			ocrDocument,
+			entity.getPossibleValues()
+		);
+		ocrResultRepository.save(ocrResult);
+		return true;
 	}
 	
 	public boolean edit(OcrResult ocrResult)

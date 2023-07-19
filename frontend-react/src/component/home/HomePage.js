@@ -65,31 +65,43 @@ const HomePage = () => {
 			})
 	}
 
-	const handleSubmit = async (ocrData) => {
-		await setOcrData(ocrResult => ({
-			...ocrResult,
-			possibleValues:{
-				...ocrResult.possibleValues.splice(0, counter)
-			}
-		}))
-		fetch('http://localhost:8080/homePage/save', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify(ocrData)
-		})
-			.then(res => res.json())
-			.then((result) => {
-				if (result === true) {
-					setOcrData(null)
-					setOcr1('')
-					setOcr2('')
-					setOcr3('')
-					setOcr4('')
-					setImageData1()
-					setImageData2()
-					setImageData3()
-					setImageData4()
-				} else {
+	const handleSubmit =(ocrData) => {
+		fetch(`http://localhost:8080/homePage/${ocrData.projectName}/`, {
+			method:'GET'
+		}).then((res) => res.json())
+			.then(async (result) => {
+				if(result === true)
+				{
+					await setOcrData(ocrResult => ({
+						...ocrResult,
+						possibleValues:{
+							...ocrResult.possibleValues.splice(0, counter)
+						}
+					}))
+					fetch('http://localhost:8080/homePage/save', {
+						method: 'POST',
+						headers: {'Content-Type': 'application/json'},
+						body: JSON.stringify(ocrData)
+					})
+						.then(res => res.json())
+						.then((result) => {
+							if (result === true) {
+								setOcrData(null)
+								setOcr1('')
+								setOcr2('')
+								setOcr3('')
+								setOcr4('')
+								setImageData1()
+								setImageData2()
+								setImageData3()
+								setImageData4()
+							} else {
+								setErrorMessage('Váratlan hiba történt')
+
+							}
+						})
+				}
+				else {
 					setErrorMessage('Ez a név már foglalt')
 				}
 			})
@@ -210,7 +222,7 @@ const HomePage = () => {
 														onChange={handleChange}
 														onBlur={handleBlur}
 													/>
-													<button disabled={values.projectName === '' || values.ocrResultFile?.name === ''} className={'register-btn'} type="submit">Mentés</button>
+													<button disabled={values.projectName === null || values.ocrResultFile?.name === null} className={'register-btn'} type="submit">Mentés</button>
 													<Button className={'mb-3'} label={'Eldobás'} onClick={deleteResult}/>
 												</VStack>
 											</Form>
