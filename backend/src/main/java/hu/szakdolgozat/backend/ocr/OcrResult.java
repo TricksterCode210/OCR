@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +42,7 @@ public class OcrResult
 	@JoinColumn(name = "ocr_result_file_id")
 	private OcrDocument ocrResultFile;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<PossibleValues> possibleValueDtos;
 	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,

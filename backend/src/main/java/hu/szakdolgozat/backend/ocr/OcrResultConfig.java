@@ -36,7 +36,6 @@ public class OcrResultConfig
 			ocrDocumentRepository.save(document);
 			PossibleValues possibleValues = new PossibleValues(
 				"teszt projekt",
-				1,
 				"asd, asdw"
 			);
 			possibleValuesRepository.save(possibleValues);

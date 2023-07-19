@@ -13,13 +13,11 @@ public class PossibleValues
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String projectName;
-	private Integer positionOfValues;
 	private String possibleWords;
 	
-	public PossibleValues(String projectName, Integer positionOfValues, String possibleWords)
+	public PossibleValues(String projectName, String possibleWords)
 	{
 		this.projectName = projectName;
-		this.positionOfValues = positionOfValues;
 		this.possibleWords = possibleWords;
 	}
 	
@@ -36,16 +34,6 @@ public class PossibleValues
 	public void setProjectName(String projectName)
 	{
 		this.projectName = projectName;
-	}
-	
-	public Integer getPositionOfValues()
-	{
-		return positionOfValues;
-	}
-	
-	public void setPositionOfValues(Integer positionOfValues)
-	{
-		this.positionOfValues = positionOfValues;
 	}
 	
 	public String getPossibleWords()

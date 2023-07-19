@@ -140,7 +140,6 @@ public class OcrResultService
 			
 			String temp = "";
 			int max = 0;
-			int counter = 1;
 			for (String key : hasonlitasMap.keySet())
 			{
 				if (hasonlitasMap.size() == 1)
@@ -163,13 +162,12 @@ public class OcrResultService
 				if (max == hasonlitasMap.get(key))
 				{
 					temp = "_____ ";
-					counter++;
 				}
 			}
 			if (temp.equals("_____ "))
 			{
 				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));
-				possibleValuesList.add(new PossibleValues("", counter, possibilities));
+				possibleValuesList.add(new PossibleValues("", possibilities));
 			}
 			ocrResult.append(temp);
 		}
