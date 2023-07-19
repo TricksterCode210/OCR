@@ -290,7 +290,10 @@ public class OcrResultService
 		{
 			throw new IllegalStateException("Nem létezik");
 		}
+		OcrResult ocrResult = ocrResultRepository.getOcrResultById(id);
 		ocrResultRepository.deleteById(id);
+		possibleValuesRepository.deleteByProjectName(ocrResult.getProjectName());
+		ocrDocumentRepository.deleteById(ocrResult.getOcrResultFile().getId());
 	}
 	
 	public OcrResult getOcrResultById(Long id)
