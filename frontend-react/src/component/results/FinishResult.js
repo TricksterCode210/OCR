@@ -55,7 +55,7 @@ const FinishResult = () => {
 		<div>
 			<InputTextarea
 				value={ocrResult?.ocrResultFile?.text}
-				autoResize
+				autoResize={ocrResult?.ocrResultFile?.text}
 				readOnly={ocrResult?.possibleValues?.length > 0 && !finish}
 				id={'ocr-result'}/>
 			<div className={'result-block'}>

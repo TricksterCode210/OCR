@@ -201,7 +201,7 @@ p.info-text {
   align-items: center;
 }
 
-#ocr-result{
+#ocr-result, #textarea_elso, #textarea_masodik, #textarea_harmadik, #textarea_negyedik{
   background-color: #282c34;
   color: white;
   width: 50rem;

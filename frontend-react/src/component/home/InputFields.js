@@ -2,6 +2,7 @@ import {HStack} from '@chakra-ui/react'
 import {Button} from 'primereact/button'
 import {Dropdown} from 'primereact/dropdown'
 import {useState} from 'react'
+import {InputTextarea} from 'primereact/inputtextarea'
 
 const InputFields = ({
 	id,
@@ -77,7 +78,12 @@ const InputFields = ({
 						<img src={imageData} hidden={!imageData} height={'70%'} width={'70%'} alt="Kép"/>
 					</div>
 					<div className={'col-6'}>
-						<pre className={'ocr-text'}>{ocr}</pre>
+						<InputTextarea
+							value={ocr}
+							autoResize={ocr}
+							hidden={!ocr}
+							id={`textarea_${id}`}
+							onChange={(e) => setOcr(e.target.value)}/>
 					</div>
 				</HStack>
 			</div>

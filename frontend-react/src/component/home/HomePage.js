@@ -51,6 +51,7 @@ const HomePage = () => {
 	}
 
 	const makeResult = async (e) => {
+		setCounter(0)
 		e.preventDefault()
 		const list = [ocr1, ocr2, ocr3, ocr4]
 		await fetch('http://localhost:8080/homePage', {
@@ -109,6 +110,7 @@ const HomePage = () => {
 
 	const deleteResult = () => {
 		setOcrData(null)
+		setCounter(0)
 	}
 
 	useEffect(() => {
@@ -173,7 +175,7 @@ const HomePage = () => {
 					<div className={'result-block'} hidden={ocrData === null}>
 						<InputTextarea
 							value={ocrData?.ocrResultFile?.text}
-							autoResize
+							autoResize={ocrData?.ocrResultFile?.text}
 							readOnly={ocrData?.possibleValues?.length > 0 && !finish}
 							id={'ocr-result'}
 							onChange={changeOcrResult}/>
