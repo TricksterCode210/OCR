@@ -57,7 +57,15 @@ const FinishResult = () => {
 				value={ocrResult?.ocrResultFile?.text}
 				autoResize={ocrResult?.ocrResultFile?.text}
 				readOnly={ocrResult?.possibleValues?.length > 0 && !finish}
-				id={'ocr-result'}/>
+				id={'ocr-result'}
+				onChange={(e) => {setOcrResult(ocrResult => ({
+					...ocrResult,
+					ocrResultFile: {
+						...ocrResult.ocrResultFile,
+						text: e.target.value
+					}
+				}))}}
+			/>
 			<div className={'result-block'}>
 				{(ocrResult?.possibleValues?.length > 0 && !finish) ?
 					<ChooseWord

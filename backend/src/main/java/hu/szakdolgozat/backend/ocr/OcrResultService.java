@@ -270,6 +270,8 @@ public class OcrResultService
 			ocrDocument,
 			entity.getPossibleValues()
 		);
+		int difference = ocrResult.getNumberOfWords()-ocrResult.getGoodWords()-ocrResult.getBadWords();
+		ocrResult.setGoodWords(ocrResult.getGoodWords()+difference);
 		ocrResultRepository.save(ocrResult);
 		return true;
 	}
