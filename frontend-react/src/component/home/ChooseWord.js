@@ -61,6 +61,7 @@ const ChooseWord = ({
 	return <>
 		{counter < ocrResult.possibleValues.length ? <>
 			<VStack>
+				<p style={{borderTop: 'solid 1px white', padding:'small'}}>Helyettesítő szavak:</p>
 				<HStack style={{alignItems: 'center', display:'flex', justifyContent:'center', marginBottom:'1rem'}}>
 			<button id={'number_1'} className={'choose-btn'} onClick={() => handleClick(word1)}> {word1}</button>
 			{word1 !== word2 && word2 !== undefined ?

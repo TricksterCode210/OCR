@@ -75,6 +75,7 @@ const InputFields = ({
 						<Button label={'Törlés'} severity={'danger'} hidden={!ocr} className={'me-3'} onClick={e => deleteResults()}/>
 					</div>
 					<div className={'col-3'}>
+						{!imageData && !ocr ? <p style={{fontSize: "large"}}>Kérem válasszon fájlt!</p> : <></>}
 						<img src={imageData} hidden={!imageData} height={'70%'} width={'70%'} alt="Kép"/>
 					</div>
 					<div className={'col-6'}>

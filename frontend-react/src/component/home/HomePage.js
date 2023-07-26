@@ -194,7 +194,7 @@ const HomePage = () => {
 										/> : <></>
 									}
 								</div>
-								<div className={'result-block'}>
+								<div className={'result-block mt-5'}>
 									<Formik
 										enableReinitialize
 										initialValues={ocrData}
@@ -204,7 +204,7 @@ const HomePage = () => {
 									>
 										{({values, handleChange, handleBlur, handleSubmit}) => (
 											<Form>
-												<VStack>
+												<VStack style={{border: 'solid 1px white', borderRadius: "15px", paddingLeft: "2rem"}}>
 													{errorMessage ? <>{errorMessage}</> : <></>}
 													<CustomInput
 														className={'m-1'}
