@@ -255,9 +255,12 @@ public class OcrResultService
 			sentenceCounter++;
 		}
 		entity.setNumberOfSentence(sentenceCounter);
-		entity.setNumberOfWords(entity.getOcrResultFile().getText().split("[ \t\n]").length);
+		entity.setNumberOfWords(entity.getOcrResultFile().getText().split("[ \t]").length);
 		entity.setAverageWordCount((double) entity.getNumberOfWords() / entity.getNumberOfSentence());
+		int difference = entity.getNumberOfWords()-entity.getGoodWords()-entity.getBadWords();
+		entity.setGoodWords(entity.getGoodWords()+difference);
 		entity.setResultPercentage((double) entity.getGoodWords() / entity.getNumberOfWords() * 100);
+		ocrDocument.setText(ocrDocument.getText().replace("\n ", "\n"));
 		ocrDocumentRepository.save(ocrDocument);
 		OcrResult ocrResult = new OcrResult(
 			entity.getProjectName(),
@@ -270,8 +273,6 @@ public class OcrResultService
 			ocrDocument,
 			entity.getPossibleValues()
 		);
-		int difference = ocrResult.getNumberOfWords()-ocrResult.getGoodWords()-ocrResult.getBadWords();
-		ocrResult.setGoodWords(ocrResult.getGoodWords()+difference);
 		ocrResultRepository.save(ocrResult);
 		return true;
 	}
