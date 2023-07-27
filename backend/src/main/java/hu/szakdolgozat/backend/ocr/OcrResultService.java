@@ -137,7 +137,7 @@ public class OcrResultService
 					}
 				}
 			}
-			
+			System.out.println(hasonlitasMap);
 			String temp = "";
 			int max = 0;
 			for (String key : hasonlitasMap.keySet())

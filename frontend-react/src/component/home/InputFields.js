@@ -3,6 +3,7 @@ import {Button} from 'primereact/button'
 import {Dropdown} from 'primereact/dropdown'
 import {useEffect, useState} from 'react'
 import {InputTextarea} from 'primereact/inputtextarea'
+import {ProgressSpinner} from 'primereact/progressspinner'
 
 const InputFields = ({
 	id,
@@ -84,12 +85,15 @@ const InputFields = ({
 						<img src={imageData} hidden={!imageData} height={'70%'} width={'70%'} alt="Kép"/>
 					</div>
 					<div className={'col-6'}>
-						<InputTextarea
-							value={ocr}
-							autoResize={ocr}
-							hidden={!ocr}
-							id={`textarea_${id}`}
-							onChange={(e) => setOcr(e.target.value)}/>
+						{!ocr && imageData ?
+							<ProgressSpinner/> :
+							<InputTextarea
+								value={ocr}
+								autoResize={ocr}
+								hidden={!ocr}
+								id={`textarea_${id}`}
+								onChange={(e) => setOcr(e.target.value)}/>
+						}
 					</div>
 				</HStack>
 			</div>
