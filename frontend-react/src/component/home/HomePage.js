@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import InputFields from './InputFields'
 import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
@@ -10,6 +10,8 @@ import {VStack} from '@chakra-ui/react'
 import ChooseWord from './ChooseWord'
 
 const HomePage = () => {
+
+	const op = useRef(null)
 
 	const [imageData1, setImageData1] = useState()
 	const [imageData2, setImageData2] = useState()
@@ -66,16 +68,15 @@ const HomePage = () => {
 			})
 	}
 
-	const handleSubmit =(ocrData) => {
+	const handleSubmit = (ocrData) => {
 		fetch(`http://localhost:8080/homePage/${ocrData.projectName}/`, {
-			method:'GET'
+			method: 'GET'
 		}).then((res) => res.json())
 			.then(async (result) => {
-				if(result === true)
-				{
+				if (result === true) {
 					await setOcrData(ocrResult => ({
 						...ocrResult,
-						possibleValues:{
+						possibleValues: {
 							...ocrResult.possibleValues.splice(0, counter)
 						}
 					}))
@@ -101,8 +102,7 @@ const HomePage = () => {
 
 							}
 						})
-				}
-				else {
+				} else {
 					setErrorMessage('Ez a név már foglalt')
 				}
 			})
@@ -204,7 +204,7 @@ const HomePage = () => {
 									>
 										{({values, handleChange, handleBlur, handleSubmit}) => (
 											<Form>
-												<VStack style={{border: 'solid 1px white', borderRadius: "15px", paddingLeft: "2rem"}}>
+												<VStack style={{border: 'solid 1px white', borderRadius: '15px', paddingLeft: '2rem'}}>
 													{errorMessage ? <>{errorMessage}</> : <></>}
 													<CustomInput
 														className={'m-1'}

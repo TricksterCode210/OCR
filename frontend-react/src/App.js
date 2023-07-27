@@ -1,5 +1,5 @@
 import './App.css'
-import {Link, Route, Routes, useResolvedPath} from 'react-router-dom'
+import {Link, Route, Routes} from 'react-router-dom'
 import Information from './component/info/Information'
 import React from 'react'
 import HomePage from './component/home/HomePage'

@@ -1,7 +1,7 @@
 import {HStack} from '@chakra-ui/react'
 import {Button} from 'primereact/button'
 import {Dropdown} from 'primereact/dropdown'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {InputTextarea} from 'primereact/inputtextarea'
 
 const InputFields = ({
@@ -48,6 +48,11 @@ const InputFields = ({
 		setImageData(null)
 		setOcr('')
 	}
+
+	useEffect(() => {
+		setOcr('')
+		setImageData()
+	}, [selectedOption])
 
 	return (
 		<div className="container-fluid mt-5 mb-5 border border-info rounded-4">
