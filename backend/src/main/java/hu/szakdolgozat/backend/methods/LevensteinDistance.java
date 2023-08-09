@@ -2,7 +2,7 @@ package hu.szakdolgozat.backend.methods;
 
 import java.util.Arrays;
 
-public class LevensteinDistance
+public final class LevensteinDistance
 {
 	public static int calculate(String x, String y)
 	{

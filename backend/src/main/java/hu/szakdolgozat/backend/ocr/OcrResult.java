@@ -1,11 +1,10 @@
 package hu.szakdolgozat.backend.ocr;
 
-import hu.szakdolgozat.backend.alternativewords.AlternativeWords;
+import hu.szakdolgozat.backend.alternatives.AlternativeWords;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CollectionTable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -45,7 +44,6 @@ public class OcrResult
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<PossibleValues> possibleValueDtos;
-	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<AlternativeWords> alternativeWords;
 	

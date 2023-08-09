@@ -1,4 +1,4 @@
-package hu.szakdolgozat.backend.alternativewords;
+package hu.szakdolgozat.backend.vocabulary;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,32 +7,32 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alternative_words")
-public class AlternativeWords
+@Table(name = "vocabulary_hungarian")
+public class Vocabulary
 {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
-	private String word;
+	private String words;
 	
-	public AlternativeWords(String word)
+	public Vocabulary(String word)
 	{
-		this.word = word;
+		this.words = word;
 	}
 	
-	public AlternativeWords()
+	public Vocabulary()
 	{
 	}
 	
-	public String getWord()
+	public String getWords()
 	{
-		return word;
+		return words;
 	}
 	
-	public void setWord(String word)
+	public void setWords(String word)
 	{
-		this.word = word;
+		this.words = word;
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class AlternativeWords
 	{
 		return "AlternativeWords{" +
 			"id='" + id + '\'' +
-			", word='" + word + '\'' +
+			", word='" + words + '\'' +
 			'}';
 	}
 }

@@ -1,6 +1,8 @@
 package hu.szakdolgozat.backend.ocr;
 
-import hu.szakdolgozat.backend.alternativewords.AlternativeWordsService;
+import hu.szakdolgozat.backend.alternatives.AlternativeWords;
+import hu.szakdolgozat.backend.alternatives.AlternativeWordsRepository;
+import hu.szakdolgozat.backend.vocabulary.VocabularyService;
 import hu.szakdolgozat.backend.methods.LevensteinDistance;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
@@ -8,7 +10,6 @@ import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValuesRepository;
 import java.text.BreakIterator;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -23,17 +24,19 @@ public class OcrResultService
 	private final OcrResultRepository ocrResultRepository;
 	private final OcrDocumentRepository ocrDocumentRepository;
 	private final PossibleValuesRepository possibleValuesRepository;
+	private final AlternativeWordsRepository alternativeWordsRepository;
 	
-	private final AlternativeWordsService alternativeWordsService;
+	private final VocabularyService vocabularyService;
 	
 	@Autowired
 	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository,
-		AlternativeWordsService alternativeWordsService)
+		AlternativeWordsRepository alternativeWordsRepository, VocabularyService vocabularyService)
 	{
 		this.ocrResultRepository = ocrResultRepository;
 		this.ocrDocumentRepository = ocrDocumentRepository;
 		this.possibleValuesRepository = possibleValuesRepository;
-		this.alternativeWordsService = alternativeWordsService;
+		this.alternativeWordsRepository = alternativeWordsRepository;
+		this.vocabularyService = vocabularyService;
 	}
 	
 	public List<OcrResult> getOcrResults()
@@ -47,6 +50,7 @@ public class OcrResultService
 		StringBuilder ocrResult = new StringBuilder();
 		List<List<String>> splittedSentences = new ArrayList<>();
 		List<PossibleValues> possibleValuesList = new ArrayList<>();
+		List<AlternativeWords> alternativeList = new ArrayList<>();
 		
 		int longestSentence = 0;
 		int dif = 0;
@@ -107,18 +111,20 @@ public class OcrResultService
 			}
 			System.out.println(hasonlitasMap);
 			String temp = "";
+			String alternatives = "";
 			int max = 0;
 			for (String key : hasonlitasMap.keySet())
 			{
 				if (hasonlitasMap.size() == 1)
 				{
-					alternativeWordsService.saveWord(key);
+					vocabularyService.saveWord(key);
 					result.setGoodWords(result.getGoodWords() + 1);
 					temp = key + " ";
 					break;
 				}
 				if (first)
 				{
+					alternatives=key;
 					result.setBadWords(result.getBadWords() + 1);
 					first = false;
 				}
@@ -135,6 +141,12 @@ public class OcrResultService
 			}
 			if (temp.equals("_____ "))
 			{
+				if(!(alternatives.isEmpty()))
+				{
+					String alternativeWords = vocabularyService.getAlternativeWordsForCompare(alternatives).stream().collect(Collectors.joining(", ", "", ""));
+					alternativeList.add(new AlternativeWords("", alternativeWords));
+				}
+				alternatives="";
 				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));
 				possibleValuesList.add(new PossibleValues("", possibilities));
 			}
@@ -143,6 +155,7 @@ public class OcrResultService
 		List<PossibleValues> tempList = result.getPossibleValues();
 		tempList.addAll(possibleValuesList);
 		result.setPossibleValues(tempList);
+		//TODO bekerüljön az adatbázisba az alternatívák
 		return ocrResult.toString();
 	}
 	
@@ -216,6 +229,11 @@ public class OcrResultService
 			possibleValue.setProjectName(entity.getProjectName());
 			possibleValuesRepository.save(possibleValue);
 		}
+		for (AlternativeWords alternativeWords : entity.getAlternativeWords())
+		{
+			alternativeWords.setProjectName(entity.getProjectName());
+			alternativeWordsRepository.save(alternativeWords);
+		}
 		int sentenceCounter = 0;
 		BreakIterator bi = BreakIterator.getSentenceInstance(Locale.forLanguageTag("hu"));
 		bi.setText(entity.getOcrResultFile().getText());
@@ -241,7 +259,7 @@ public class OcrResultService
 			entity.getResultPercentage(),
 			ocrDocument,
 			entity.getPossibleValues(),
-			null
+			entity.getAlternativeWords()
 		);
 		ocrResultRepository.save(ocrResult);
 		return true;
