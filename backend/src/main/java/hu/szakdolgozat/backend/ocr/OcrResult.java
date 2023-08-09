@@ -1,5 +1,6 @@
 package hu.szakdolgozat.backend.ocr;
 
+import hu.szakdolgozat.backend.alternativewords.AlternativeWords;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class OcrResult
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<PossibleValues> possibleValueDtos;
 	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<AlternativeWords> alternativeWords;
+	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
 		OcrDocument ocrResultFile)
 	{
@@ -60,7 +64,8 @@ public class OcrResult
 	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
 		OcrDocument ocrResultFile,
-		List<PossibleValues> possibleValueDtos)
+		List<PossibleValues> possibleValueDtos,
+		List<AlternativeWords> alternativeWords)
 	{
 		this.projectName = projectName;
 		this.numberOfSentence = numberOfSentence;
@@ -71,6 +76,7 @@ public class OcrResult
 		this.resultPercentage = resultPercentage;
 		this.ocrResultFile = ocrResultFile;
 		this.possibleValueDtos = possibleValueDtos;
+		this.alternativeWords = alternativeWords;
 	}
 	
 	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
@@ -191,6 +197,16 @@ public class OcrResult
 	public void setPossibleValues(List<PossibleValues> possibleValueDtos)
 	{
 		this.possibleValueDtos = possibleValueDtos;
+	}
+	
+	public List<AlternativeWords> getAlternativeWords()
+	{
+		return alternativeWords;
+	}
+	
+	public void setAlternativeWords(List<AlternativeWords> alternativeWords)
+	{
+		this.alternativeWords = alternativeWords;
 	}
 	
 	@Override

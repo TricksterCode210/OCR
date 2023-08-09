@@ -1,5 +1,7 @@
 package hu.szakdolgozat.backend.ocr;
 
+import hu.szakdolgozat.backend.alternativewords.AlternativeWords;
+import hu.szakdolgozat.backend.alternativewords.AlternativeWordsRepository;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
@@ -14,11 +16,13 @@ public class OcrResultConfig
 {
 	private final OcrDocumentRepository ocrDocumentRepository;
 	private final PossibleValuesRepository possibleValuesRepository;
+	private final AlternativeWordsRepository alternativeWordsRepository;
 	
-	public OcrResultConfig(OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository)
+	public OcrResultConfig(OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository, AlternativeWordsRepository alternativeWordsRepository)
 	{
 		this.ocrDocumentRepository = ocrDocumentRepository;
 		this.possibleValuesRepository = possibleValuesRepository;
+		this.alternativeWordsRepository = alternativeWordsRepository;
 	}
 	
 	@Bean("ocrResult")
@@ -45,6 +49,8 @@ public class OcrResultConfig
 				"asd, asdw"
 			);
 			possibleValuesRepository.save(possibleValues);
+			AlternativeWords alternativeWords = new AlternativeWords("teszt");
+			alternativeWordsRepository.save(alternativeWords);
 			OcrResult ocrResult = new OcrResult(
 				"teszt projekt",
 				1,
@@ -54,7 +60,8 @@ public class OcrResultConfig
 				17,
 				26.0869,
 				document,
-				List.of(possibleValues)
+				List.of(possibleValues),
+				List.of(alternativeWords)
 			);
 			
 			OcrResult ocrResult2 = new OcrResult(
