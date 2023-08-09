@@ -1,5 +1,6 @@
 package hu.szakdolgozat.backend.ocr;
 
+import hu.szakdolgozat.backend.alternativewords.AlternativeWordsService;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocument;
 import hu.szakdolgozat.backend.ocrdocument.OcrDocumentRepository;
 import hu.szakdolgozat.backend.possiblevalues.PossibleValues;
@@ -22,12 +23,16 @@ public class OcrResultService
 	private final OcrDocumentRepository ocrDocumentRepository;
 	private final PossibleValuesRepository possibleValuesRepository;
 	
+	private final AlternativeWordsService alternativeWordsService;
+	
 	@Autowired
-	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository)
+	public OcrResultService(OcrResultRepository ocrResultRepository, OcrDocumentRepository ocrDocumentRepository, PossibleValuesRepository possibleValuesRepository,
+		AlternativeWordsService alternativeWordsService)
 	{
 		this.ocrResultRepository = ocrResultRepository;
 		this.ocrDocumentRepository = ocrDocumentRepository;
 		this.possibleValuesRepository = possibleValuesRepository;
+		this.alternativeWordsService = alternativeWordsService;
 	}
 	
 	public List<OcrResult> getOcrResults()
@@ -144,6 +149,7 @@ public class OcrResultService
 			{
 				if (hasonlitasMap.size() == 1)
 				{
+					alternativeWordsService.saveWord(key);
 					result.setGoodWords(result.getGoodWords() + 1);
 					temp = key + " ";
 					break;
