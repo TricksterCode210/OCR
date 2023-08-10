@@ -158,13 +158,13 @@ public class OcrResultService
 		tempList.addAll(possibleValuesList);
 		result.setPossibleValues(tempList);
 		
-		if(result.getAlternativeWords() != null)
+		if(result.getAlternatives() != null)
 		{
-			List<AlternativeWords> tempList2 = result.getAlternativeWords();
+			List<AlternativeWords> tempList2 = result.getAlternatives();
 			tempList2.addAll(alternativeList);
-			result.setAlternativeWords(tempList2);
+			result.setAlternatives(tempList2);
 		}else{
-			result.setAlternativeWords(alternativeList);
+			result.setAlternatives(alternativeList);
 		}
 		
 		return ocrResult.toString();
@@ -240,7 +240,7 @@ public class OcrResultService
 			possibleValue.setProjectName(entity.getProjectName());
 			possibleValuesRepository.save(possibleValue);
 		}
-		for (AlternativeWords alternativeWords : entity.getAlternativeWords())
+		for (AlternativeWords alternativeWords : entity.getAlternatives())
 		{
 			alternativeWords.setProjectName(entity.getProjectName());
 			alternativeWordsRepository.save(alternativeWords);
@@ -270,7 +270,7 @@ public class OcrResultService
 			entity.getResultPercentage(),
 			ocrDocument,
 			entity.getPossibleValues(),
-			entity.getAlternativeWords()
+			entity.getAlternatives()
 		);
 		ocrResultRepository.save(ocrResult);
 		return true;

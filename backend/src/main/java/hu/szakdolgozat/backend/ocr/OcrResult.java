@@ -45,7 +45,7 @@ public class OcrResult
 	@OneToMany(fetch = FetchType.EAGER)
 	private List<PossibleValues> possibleValueDtos;
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<AlternativeWords> alternativeWords;
+	private List<AlternativeWords> alternatives;
 	
 	public OcrResult(String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
 		OcrDocument ocrResultFile)
@@ -74,7 +74,7 @@ public class OcrResult
 		this.resultPercentage = resultPercentage;
 		this.ocrResultFile = ocrResultFile;
 		this.possibleValueDtos = possibleValueDtos;
-		this.alternativeWords = alternativeWords;
+		this.alternatives = alternativeWords;
 	}
 	
 	public OcrResult(Long id, String projectName, Integer numberOfSentence, Integer numberOfWords, double averageWordCount, Integer goodWords, Integer badWords, double resultPercentage,
@@ -197,14 +197,14 @@ public class OcrResult
 		this.possibleValueDtos = possibleValueDtos;
 	}
 	
-	public List<AlternativeWords> getAlternativeWords()
+	public List<AlternativeWords> getAlternatives()
 	{
-		return alternativeWords;
+		return alternatives;
 	}
 	
-	public void setAlternativeWords(List<AlternativeWords> alternativeWords)
+	public void setAlternatives(List<AlternativeWords> alternatives)
 	{
-		this.alternativeWords = alternativeWords;
+		this.alternatives = alternatives;
 	}
 	
 	@Override
