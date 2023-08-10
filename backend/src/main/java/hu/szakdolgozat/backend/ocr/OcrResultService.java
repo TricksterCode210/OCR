@@ -109,7 +109,7 @@ public class OcrResultService
 					}
 				}
 			}
-			System.out.println(hasonlitasMap);
+			
 			String temp = "";
 			String alternatives = "";
 			int max = 0;
@@ -139,6 +139,7 @@ public class OcrResultService
 					temp = "_____ ";
 				}
 			}
+			
 			if (temp.equals("_____ "))
 			{
 				if(!(alternatives.isEmpty()))
@@ -151,11 +152,21 @@ public class OcrResultService
 				possibleValuesList.add(new PossibleValues("", possibilities));
 			}
 			ocrResult.append(temp);
+			
 		}
 		List<PossibleValues> tempList = result.getPossibleValues();
 		tempList.addAll(possibleValuesList);
 		result.setPossibleValues(tempList);
-		//TODO bekerüljön az adatbázisba az alternatívák
+		
+		if(result.getAlternativeWords() != null)
+		{
+			List<AlternativeWords> tempList2 = result.getAlternativeWords();
+			tempList2.addAll(alternativeList);
+			result.setAlternativeWords(tempList2);
+		}else{
+			result.setAlternativeWords(alternativeList);
+		}
+		
 		return ocrResult.toString();
 	}
 	
