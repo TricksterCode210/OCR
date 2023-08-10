@@ -36,7 +36,7 @@ public class VocabularyService
 	{
 		if (vocabularyRepository.getByWords(word.replaceAll("[( .,\r\n\t)+]", "")) == null)
 		{
-			word = word.replaceAll("[( .,\n\t)+]", "");
+			word = word.replaceAll("[( .,\r\n\t)+]", "");
 			Vocabulary vocabulary = new Vocabulary(word);
 			vocabularyRepository.save(vocabulary);
 		}
