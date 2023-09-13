@@ -8,6 +8,7 @@ import {Form, Formik} from 'formik'
 import CustomInput from '../CustomInput'
 import {VStack} from '@chakra-ui/react'
 import ChooseWord from './ChooseWord'
+import {Checkbox} from 'primereact/checkbox'
 
 const HomePage = () => {
 
@@ -22,6 +23,8 @@ const HomePage = () => {
 	const [ocr2, setOcr2] = useState('')
 	const [ocr3, setOcr3] = useState('')
 	const [ocr4, setOcr4] = useState('')
+
+	const [blockVisible, setBlockVisible] = useState(false)
 
 	const [finish, setFinish] = useState(false)
 
@@ -139,6 +142,10 @@ const HomePage = () => {
 		}))
 	}
 
+	const onVisibilityChange = (e) => {
+		setBlockVisible(e.checked)
+	}
+
 	return (
 		<div className={'container-fluid scanners'}>
 			<div className={'row'}>
@@ -165,12 +172,18 @@ const HomePage = () => {
 			</div>
 			{selectedLanguage !== undefined ?
 				<>
-					<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1} setOcr={setOcr1}/>
-					<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2} setOcr={setOcr2}/>
-					<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3} setOcr={setOcr3}/>
-					<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4} setOcr={setOcr4}/>
+					<div hidden={blockVisible}>
+						<InputFields id={'elso'} ocr={ocr1} imageData={imageData1} setImageData={setImageData1} setOcr={setOcr1}/>
+						<InputFields id={'masodik'} ocr={ocr2} imageData={imageData2} setImageData={setImageData2} setOcr={setOcr2}/>
+						<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3} setOcr={setOcr3}/>
+						<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4} setOcr={setOcr4}/>
+						<div className={'result-block'}>
+							<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
+						</div>
+					</div>
 					<div className={'result-block'}>
-						<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
+						<p>Eltüntetné a módosító felületet?</p>
+						<Checkbox type={'checkbox'} id={'visibility-check'} name={'visibility'} style={{margin: '1rem', position:'center'}} checked={blockVisible} onChange={onVisibilityChange}/>
 					</div>
 					<div className={'result-block'} hidden={ocrData === null}>
 						<InputTextarea
