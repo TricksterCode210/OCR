@@ -40,7 +40,8 @@ const ChooseWord = ({
 			...ocrResult,
 			ocrResultFile: {
 				...ocrResult.ocrResultFile,
-				text: ocrResult.ocrResultFile.text.replace((x!==0 ? `${splittedWords[x - 1]} ` : ``) + `${splittedWords[x]}` + (splittedWords[x+1] !== undefined ? ` ${splittedWords[x + 1]}` : ``), replaceWord)
+				text: ocrResult.ocrResultFile.text.replace((x !== 0 ? `${splittedWords[x - 1]} ` : ``) +
+					`${splittedWords[x]}` + (splittedWords[x + 1] !== undefined ? ` ${splittedWords[x + 1]}` : ``), replaceWord)
 			}
 		}))
 		setCounter(counter => counter + 1)
@@ -51,11 +52,9 @@ const ChooseWord = ({
 		const x = splittedWords.indexOf('_____')
 		if (x === 0) {
 			setReplaceWord(`${splittedWords[x]} ${splittedWords[x + 1]}`)
-		} else if (splittedWords[x+1] === undefined)
-		{
+		} else if (splittedWords[x + 1] === undefined) {
 			setReplaceWord(`${splittedWords[x - 1]} ${splittedWords[x]}`)
-		}
-		else {
+		} else {
 			setReplaceWord(`${splittedWords[x - 1]} ${splittedWords[x]} ${splittedWords[x + 1]}`)
 		}
 	}, [ocrResult])
