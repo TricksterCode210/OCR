@@ -40,7 +40,7 @@ const ChooseWord = ({
 			...ocrResult,
 			ocrResultFile: {
 				...ocrResult.ocrResultFile,
-				text: ocrResult.ocrResultFile.text.replace(`${splittedWords[x - 1]} ${splittedWords[x]} ${splittedWords[x + 1]}`, replaceWord)
+				text: ocrResult.ocrResultFile.text.replace((x!==0 ? `${splittedWords[x - 1]} ` : ``) + `${splittedWords[x]} ${splittedWords[x + 1]}`, replaceWord)
 			}
 		}))
 		setCounter(counter => counter + 1)
@@ -49,7 +49,12 @@ const ChooseWord = ({
 	useEffect(() => {
 		const splittedWords = ocrResult?.ocrResultFile.text.split(' ')
 		const x = splittedWords.indexOf('_____')
-		setReplaceWord(`${splittedWords[x - 1]} ${splittedWords[x]} ${splittedWords[x + 1]}`)
+		if (x === 0) {
+			setReplaceWord(`${splittedWords[x]} ${splittedWords[x + 1]}`)
+		}
+		else {
+			setReplaceWord(`${splittedWords[x - 1]} ${splittedWords[x]} ${splittedWords[x + 1]}`)
+		}
 	}, [ocrResult])
 
 	useEffect(() => {
