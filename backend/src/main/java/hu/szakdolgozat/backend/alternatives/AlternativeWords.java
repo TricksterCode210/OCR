@@ -1,5 +1,6 @@
 package hu.szakdolgozat.backend.alternatives;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,11 +16,13 @@ public class AlternativeWords
 	private String id;
 	private String projectName;
 	private String alternativeWords;
+	private String distances;
 	
-	public AlternativeWords(String projectName, String alternativeWords)
+	public AlternativeWords(String projectName, String alternativeWords, String distances)
 	{
 		this.projectName = projectName;
 		this.alternativeWords = alternativeWords;
+		this.distances = distances;
 	}
 	
 	public AlternativeWords()
@@ -49,5 +52,15 @@ public class AlternativeWords
 	public void setAlternativeWords(String alternativeWords)
 	{
 		this.alternativeWords = alternativeWords;
+	}
+	
+	public String getDistances()
+	{
+		return distances;
+	}
+	
+	public void setDistances(String distances)
+	{
+		this.distances = distances;
 	}
 }

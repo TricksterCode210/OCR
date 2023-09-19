@@ -14,11 +14,7 @@ const ChooseWord = ({
 	const [word3, setWord3] = useState()
 	const [word4, setWord4] = useState()
 
-	const [alternative1, setAlternative1] = useState()
-	const [alternative2, setAlternative2] = useState()
-	const [alternative3, setAlternative3] = useState()
-	const [alternative4, setAlternative4] = useState()
-	const [alternative5, setAlternative5] = useState()
+	const [alternatives, setAlternatives] = useState([])
 
 	const [replaceWord, setReplaceWord] = useState()
 
@@ -68,11 +64,10 @@ const ChooseWord = ({
 			setWord2(ocrResult.possibleValues[counter].possibleWords.split(', ')[1])
 			setWord3(ocrResult.possibleValues[counter].possibleWords.split(', ')[2])
 			setWord4(ocrResult.possibleValues[counter].possibleWords.split(', ')[3])
-			setAlternative1(ocrResult.alternatives[counter].alternativeWords.split(', ')[0])
-			setAlternative2(ocrResult.alternatives[counter].alternativeWords.split(', ')[1])
-			setAlternative3(ocrResult.alternatives[counter].alternativeWords.split(', ')[2])
-			setAlternative4(ocrResult.alternatives[counter].alternativeWords.split(', ')[3])
-			setAlternative5(ocrResult.alternatives[counter].alternativeWords.split(', ')[4])
+			setAlternatives({
+				word: ocrResult.alternatives[counter].alternativeWords.split(', '),
+				distances: ocrResult.alternatives[counter].distances.split(', ')
+			})
 		}
 	}, [counter])
 
@@ -93,23 +88,14 @@ const ChooseWord = ({
 					}
 					<button id={'no_match'} className={'choose-none-btn'} onClick={() => handleClick(undefined)}>"Egyik sem"</button>
 				</HStack>
-				{alternative1 || alternative2 ? <><p style={{borderTop: 'solid 1px white', padding: 'small'}}>Alternatív szavak:</p>
+				{alternatives !== null ? <><p style={{borderTop: 'solid 1px white', padding: 'small'}}>Alternatív szavak:</p>
 					<HStack style={{alignItems: 'center', display: 'flex', justifyContent: 'center', marginBottom: '1rem'}}>
-						{alternative1 ?
-							<button id={'alternative_1'} className={'choose-btn'} onClick={() => handleClick(alternative1)}> {alternative1}</button> : <></>
-						}
-						{alternative2 ?
-							<button id={'alternative_2'} className={'choose-btn'} onClick={() => handleClick(alternative2)}>{alternative2}</button> : <></>
-						}
-						{alternative3 ?
-							<button id={'alternative_3'} className={'choose-btn'} onClick={() => handleClick(alternative3)}>{alternative3}</button> : <></>
-						}
-						{alternative4 ?
-							<button id={'alternative_4'} className={'choose-btn'} onClick={() => handleClick(alternative4)}>{alternative4}</button> : <></>
-						}
-						{alternative5 ?
-							<button id={'alternative_4'} className={'choose-btn'} onClick={() => handleClick(alternative5)}>{alternative5}</button> : <></>
-						}
+						{
+							alternatives?.word?.map((a, index) =>
+							a !== undefined && a !== ''?
+							<button id={`alternative_${a}`} className={'choose-btn'} onClick={() => handleClick(a)}> {a} ({alternatives.distances[index]})</button>
+								: <p>Nincs alternatív lehetőség</p>
+							)}
 					</HStack> </> : <></>}
 				<HStack>
 					<div className={'form-labels'}>

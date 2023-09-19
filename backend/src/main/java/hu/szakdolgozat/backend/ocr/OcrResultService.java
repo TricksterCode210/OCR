@@ -144,8 +144,16 @@ public class OcrResultService
 			{
 				if(!(alternatives.isEmpty()))
 				{
-					String alternativeWords = vocabularyService.getAlternativeWordsForCompare(alternatives).stream().collect(Collectors.joining(", ", "", ""));
-					alternativeList.add(new AlternativeWords("", alternativeWords));
+					Map<String, Integer> mapWords = vocabularyService.getAlternativeWordsForCompare(alternatives);
+					List<String> distances = new ArrayList<>();
+					List<String> alternativeWordsList = new ArrayList<>();
+					for(String keyWord : mapWords.keySet())
+					{
+						alternativeWordsList.add(keyWord);
+						distances.add(mapWords.get(keyWord).toString());
+					}
+					String alternativeWords = alternativeWordsList.stream().collect(Collectors.joining(", ", "", ""));
+					alternativeList.add(new AlternativeWords("", alternativeWords, String.join(", ", distances)));
 				}
 				alternatives="";
 				String possibilities = hasonlitasMap.keySet().stream().collect(Collectors.joining(", ", "", ""));

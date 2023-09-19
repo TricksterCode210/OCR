@@ -2,7 +2,9 @@ package hu.szakdolgozat.backend.vocabulary;
 
 import hu.szakdolgozat.backend.methods.LevensteinDistance;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,18 @@ public class VocabularyService
 		this.vocabularyRepository = vocabularyRepository;
 	}
 	
-	public List<String> getAlternativeWordsForCompare(String word)
+	public Map<String, Integer> getAlternativeWordsForCompare(String word)
 	{
-		List<String> result = new ArrayList<>();
+		Map<String, Integer> result = new HashMap<>();
 		int counter = 0;
+		int distance;
 		for (String a : vocabularyRepository.getAll())
 		{
-			if (LevensteinDistance.calculate(a, word) <= 2 && counter < 5)
+			distance = LevensteinDistance.calculate(a, word);
+			if (distance <= 2 && counter < 10)
 			{
 				counter++;
-				result.add(a);
+				result.put(a, distance);
 			}
 		}
 		return result;
