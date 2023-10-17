@@ -1,7 +1,7 @@
 import './App.css'
 import {Link, Route, Routes} from 'react-router-dom'
 import Information from './component/info/Information'
-import React from 'react'
+import React, {useState} from 'react'
 import HomePage from './component/home/HomePage'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ResultTable from './component/results/ResultTable'
@@ -10,23 +10,27 @@ import RegisterPage from './component/register/RegisterPage'
 import FinishResult from './component/results/FinishResult'
 
 function App() {
+
+	const [username, setUsername] = useState(null)
+
 	return (
 		<div className="App">
 			<header>
-				<nav className="nav">
+				{username !== null ? <nav className="nav">
 					<Link to={'/homePage'} className={'nav-item'}>Kezdőlap</Link>
 					<Link to={'/results'} className={'nav-item'}>Eredmények</Link>
 					<Link to={'/information'} className={'nav-item'}>Súgó</Link>
-					<Link to={'/'} className={'nav-item'}>Kijelentkezés</Link>
-				</nav>
+					<Link to={'/'} className={'nav-item'} onClick={() => {setUsername(null)}}>Kijelentkezés</Link>
+					<h4 className={'justify-content-end'}>{username}</h4>
+				</nav> : <></>}
 				<div className={'nav-cim'}>
 					<h3 className={'nav-cim-header'}>OCR Scanner</h3>
 				</div>
 			</header>
 			<main>
 				<Routes>
-					<Route path={'/'} element={<LoginPage/>}/>
-					<Route path={'/register'} element={<RegisterPage/>}/>
+					<Route path={'/'} element={<LoginPage setUsername={setUsername}/>}/>
+					<Route path={'/register'} element={<RegisterPage setUsername={setUsername}/>}/>
 					<Route path={'/homePage'} element={<HomePage/>}/>
 					<Route path={'/results'} element={<ResultTable/>}/>
 					<Route path={'/results/:id'} element={<FinishResult/>}/>
