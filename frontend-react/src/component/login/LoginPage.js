@@ -4,7 +4,7 @@ import {Text, VStack} from '@chakra-ui/react'
 import CustomInput from '../CustomInput'
 import {Link, useNavigate} from 'react-router-dom'
 
-const LoginPage = ({setUsername}) => {
+const LoginPage = () => {
 	const [loggedIn, setLoggedIn] = useState(true)
 	const navigator = useNavigate()
 
@@ -23,7 +23,6 @@ const LoginPage = ({setUsername}) => {
 			.then(res => res.json())
 			.then((result) => {
 				if (result === true) {
-					setUsername(email.split('@')[0])
 					navigator('/homePage')
 				} else {
 					setLoggedIn(false)

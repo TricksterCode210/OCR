@@ -4,7 +4,7 @@ import {useState} from 'react'
 import {Text, VStack} from '@chakra-ui/react'
 import CustomInput from '../CustomInput'
 
-const RegisterPage = ({setUsername}) => {
+const RegisterPage = () => {
 	const [registered, setRegistered] = useState(true)
 	const navigator = useNavigate()
 
@@ -36,7 +36,6 @@ const RegisterPage = ({setUsername}) => {
 			.then((result) => {
 				console.log(result)
 				if (result === true) {
-					setUsername(email.split('@')[0])
 					navigator('/homePage')
 				} else {
 					setRegistered(false)
