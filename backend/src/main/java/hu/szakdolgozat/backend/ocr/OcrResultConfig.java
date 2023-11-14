@@ -49,11 +49,11 @@ public class OcrResultConfig
 			OcrResult ocrResult = new OcrResult(
 				"teszt projekt",
 				1,
-				23,
-				23.0,
-				6,
-				17,
-				26.0869,
+				3,
+				3.0,
+				2,
+				1,
+				33.3333,
 				document,
 				List.of(possibleValues),
 				null
