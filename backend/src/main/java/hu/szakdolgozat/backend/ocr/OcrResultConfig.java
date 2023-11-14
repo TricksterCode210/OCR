@@ -53,7 +53,7 @@ public class OcrResultConfig
 				3.0,
 				2,
 				1,
-				33.3333,
+				66.6667,
 				document,
 				List.of(possibleValues),
 				null
