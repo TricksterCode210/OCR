@@ -65,8 +65,8 @@ const ChooseWord = ({
 			setWord3(ocrResult.possibleValues[counter].possibleWords.split(', ')[2])
 			setWord4(ocrResult.possibleValues[counter].possibleWords.split(', ')[3])
 			setAlternatives({
-				word: ocrResult.alternatives[counter].alternativeWords.split(', '),
-				distances: ocrResult.alternatives[counter].distances.split(', ')
+				word: ocrResult.alternatives[counter]?.alternativeWords.split(', '),
+				distances: ocrResult.alternatives[counter]?.distances.split(', ')
 			})
 		}
 	}, [counter])
