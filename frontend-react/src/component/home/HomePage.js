@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import InputFields from './InputFields'
 import Tesseract from 'tesseract.js'
 import {Dropdown} from 'primereact/dropdown'
@@ -11,8 +11,6 @@ import ChooseWord from './ChooseWord'
 import {Checkbox} from 'primereact/checkbox'
 
 const HomePage = () => {
-
-	const op = useRef(null)
 
 	const [imageData1, setImageData1] = useState()
 	const [imageData2, setImageData2] = useState()
@@ -178,7 +176,7 @@ const HomePage = () => {
 						<InputFields id={'harmadik'} ocr={ocr3} imageData={imageData3} setImageData={setImageData3} setOcr={setOcr3}/>
 						<InputFields id={'negyedik'} ocr={ocr4} imageData={imageData4} setImageData={setImageData4} setOcr={setOcr4}/>
 						<div className={'result-block'}>
-							<Button disabled={!ocr1 || !ocr2 || !ocr3 || !ocr4} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
+							<Button disabled={!ocr1 || (!ocr2 && !ocr3 && !ocr4)} label={'OCR eredmény készítés'} id={'ocr-button'} onClick={e => makeResult(e)}/>
 						</div>
 					</div>
 					<div className={'result-block'}>
@@ -215,7 +213,7 @@ const HomePage = () => {
 											handleSubmit(data)
 										}}
 									>
-										{({values, handleChange, handleBlur, handleSubmit}) => (
+										{({values, handleChange, handleBlur}) => (
 											<Form>
 												<VStack style={{border: 'solid 1px white', borderRadius: '15px', paddingLeft: '2rem'}}>
 													{errorMessage ? <>{errorMessage}</> : <></>}
