@@ -17,10 +17,10 @@ const HomePage = () => {
 	const [imageData3, setImageData3] = useState()
 	const [imageData4, setImageData4] = useState()
 
-	const [ocr1, setOcr1] = useState('')
-	const [ocr2, setOcr2] = useState('')
-	const [ocr3, setOcr3] = useState('')
-	const [ocr4, setOcr4] = useState('')
+	const [ocr1, setOcr1] = useState(null)
+	const [ocr2, setOcr2] = useState(null)
+	const [ocr3, setOcr3] = useState(null)
+	const [ocr4, setOcr4] = useState(null)
 
 	const [blockVisible, setBlockVisible] = useState(false)
 
@@ -56,7 +56,15 @@ const HomePage = () => {
 	const makeResult = async (e) => {
 		setCounter(0)
 		e.preventDefault()
-		const list = [ocr1, ocr2, ocr3, ocr4]
+		const list = [ocr1, ocr2];
+		if(ocr3 !== null)
+		{
+			list.push(ocr3)
+		}
+		if(ocr4 !== null)
+		{
+			list.push(ocr4)
+		}
 		await fetch('http://localhost:8080/homePage', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
