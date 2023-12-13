@@ -16,7 +16,8 @@ Ez a program annak érdekében készült, hogy az OCR programok által készíte
 Ha megvan az előkészületekkel, akkor a backend -> src -> main -> java -> BackendApplication.java osztályt kell elindítani.
 Meg kell várni, amíg a Spring felépül és aztán elérhető lesz az adatbázis is.
 Minden indításnál az adatbázis üresen indul el, mert még a program fejlesztés alatt van.
-Az application.properties fájlban ez módosítható természetesen.
+Az application.properties fájlban ez módosítható természetesen, ha a spring.jpa.hibernate.ddl-auto értékét módosítjuk.
+(Segítő link a property módosításhoz: https://stackoverflow.com/questions/42135114/how-does-spring-jpa-hibernate-ddl-auto-property-exactly-work-in-spring)
 
 ## Frontend indítás
 
